@@ -96,23 +96,20 @@ public class AnimationStateController : MonoBehaviour
         }
 
 
-        //Jumping
-
-        if (Input.GetKeyDown("space"))
-        {
-            animator.SetBool("isJumping", true);
-        }
-
-        if (Input.GetKeyUp("space"))
-        {
-            animator.SetBool("isJumping", false);
-        }
-
-
-
         velocityZ = Mathf.Clamp(velocityZ, -0.5f, 2);
         velocityX = Mathf.Clamp(velocityX, -2, 2);
         animator.SetFloat(velocityXHash, velocityX);
         animator.SetFloat(velocityZHash, velocityZ);
+    }
+
+    public void Jump()
+    {
+        animator.SetBool("isJumping", true);
+    }
+
+    public void Land()
+    {
+        Debug.Log("Landed animation");
+        animator.SetBool("isJumping", false);
     }
 }

@@ -13,17 +13,20 @@ public class ThirdPersonMovemnet : MonoBehaviour
 
     public float gravity = -9.81f;
     public float jumpHeight = 3f;
+    [SerializeField] float jumpDelay = 0.5f;
 
     public Transform groundCheck;
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
 
     Vector3 velocity;
-    bool isGrounded;
+    [SerializeField] bool isGrounded; //Serialized for debug
 
+    bool isJumping;
 
     private void Start()
     {
+        isJumping = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -34,7 +37,15 @@ public class ThirdPersonMovemnet : MonoBehaviour
 
         if(isGrounded && velocity.y <0)
         {
+
+            Debug.Log("Landed");
             velocity.y = -2f;
+            if (isJumping)
+            {
+
+                GetComponent<AnimationStateController>().Land();
+                isJumping = false;
+            }
         }
 
         float horizontal = Input.GetAxisRaw("Horizontal");
@@ -53,10 +64,20 @@ public class ThirdPersonMovemnet : MonoBehaviour
 
         if(Input.GetButtonDown("Jump") && isGrounded)
         {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+
+            GetComponent<AnimationStateController>().Jump();
+            StartCoroutine(Jump());
         }
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+    }
+
+    IEnumerator Jump()
+    {
+        yield return new WaitForSeconds(jumpDelay);
+        velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+
+        isJumping = true;
     }
 }

@@ -75,11 +75,12 @@ public class AnimationStateController : MonoBehaviour
             velocityX -= Time.deltaTime * decceleration;
         }
         //stop when stop forward movement
-        if (!forwardPressed && velocityZ > 0)
+        if (!forwardPressed && velocityZ > 0 || (forwardPressed && backwardPressed && velocityZ > 0))
         {
             velocityZ -= Time.deltaTime * decceleration;
         }
-        if (!backwardPressed && velocityZ < 0)
+        //stop when backward stop
+        if (!backwardPressed && velocityZ < 0 || (forwardPressed && backwardPressed && velocityZ < 0))
         {
             velocityZ += Time.deltaTime * decceleration;
         }

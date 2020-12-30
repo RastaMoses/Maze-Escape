@@ -95,6 +95,21 @@ public class AnimationStateController : MonoBehaviour
             velocityX = 0;
         }
 
+
+        //Jumping
+
+        if (Input.GetKeyDown("space"))
+        {
+            animator.SetBool("isJumping", true);
+        }
+
+        if (Input.GetKeyUp("space"))
+        {
+            animator.SetBool("isJumping", false);
+        }
+
+
+
         velocityZ = Mathf.Clamp(velocityZ, -0.5f, 2);
         velocityX = Mathf.Clamp(velocityX, -2, 2);
         animator.SetFloat(velocityXHash, velocityX);

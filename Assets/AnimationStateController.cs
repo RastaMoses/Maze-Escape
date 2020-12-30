@@ -4,20 +4,30 @@ using UnityEngine;
 
 public class AnimationStateController : MonoBehaviour
 {
-    Animator animator;
-    int velocityHash;
-    int isRunningHash;
-    float velocity = 0f;
-    [SerializeField] float acceleration = 1;
+    //Params
+    [SerializeField] float accelerationX = 1;
+    [SerializeField] float accelerationZ = 1;
     [SerializeField] float sprintAcceleration = 0.6f;
     [SerializeField] float decceleration = 1;
+
+    //States
+
+    int velocityXHash;
+    int velocityZHash;
+    float velocityX;
+    float velocityZ;
+
+
+
+    //Cached components
+    Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
-        velocityHash = Animator.StringToHash("velocity");
-        isRunningHash = Animator.StringToHash("isRunning");
+        velocityXHash = Animator.StringToHash("velocityX");
+        velocityZHash = Animator.StringToHash("velocityZ");
     }
 
     // Update is called once per frame
@@ -26,19 +36,21 @@ public class AnimationStateController : MonoBehaviour
         
         
         bool forwardPressed = Input.GetKey("w");
+        bool leftPressed = Input.GetKey("a");
+        bool rightPressed = Input.GetKey("d");
         bool runPressed = Input.GetKey("left shift");
         
         //Walking
         if (forwardPressed)
         {
-            velocity += Time.deltaTime * acceleration;
+            velocityZ += Time.deltaTime * accelerationZ;
             
             
 
         }
         if (!forwardPressed)
         {
-            velocity -= Time.deltaTime * decceleration;
+            velocityZ -= Time.deltaTime * decceleration;
             
         }
 
@@ -47,7 +59,7 @@ public class AnimationStateController : MonoBehaviour
 
        
         
-        velocity = Mathf.Clamp(velocity, 0, 1);
-        animator.SetFloat(velocityHash, velocity);
+        velocityX = Mathf.Clamp(velocityZ, 0, 1);
+        animator.SetFloat(velocityXHash, velocityX);
     }
 }

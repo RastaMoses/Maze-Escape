@@ -10,6 +10,8 @@ public class AnimationStateController : MonoBehaviour
     [SerializeField] float accelerationBackward = 0.4f;
     [SerializeField] float sprintAcceleration = 0.6f;
     [SerializeField] float decceleration = 1;
+    [SerializeField] float maxWalkVelocity = 0.5f;
+    [SerializeField] float maxRunVelocity = 2;
 
     //States
 
@@ -31,41 +33,36 @@ public class AnimationStateController : MonoBehaviour
         velocityZHash = Animator.StringToHash("velocity Z");
     }
 
-    // Update is called once per frame
-    void Update()
+    void ChangeVelocity(bool forwardPressed, bool backwardPressed, bool leftPressed, bool rightPressed, bool runPressed, float currentMaxVelocity)
     {
-        
-        
-        bool forwardPressed = Input.GetKey("w");
-        bool backwardPressed = Input.GetKey("s");
-        bool leftPressed = Input.GetKey("a");
-        bool rightPressed = Input.GetKey("d");
-        bool runPressed = Input.GetKey("left shift");
-        
         //Walking forward
-        if (forwardPressed && velocityZ < 0.5f && !runPressed && !backwardPressed)
+        if (forwardPressed && velocityZ < currentMaxVelocity && !backwardPressed)
         {
             velocityZ += Time.deltaTime * accelerationForward;
         }
 
         //move backward
-        if (backwardPressed && velocityZ > -0.5f && !forwardPressed && !runPressed)
+        if (backwardPressed && velocityZ > -0.5f && !forwardPressed)
         {
             velocityZ -= Time.deltaTime * accelerationBackward;
         }
         //move left
-        if (leftPressed && velocityX > -0.5f && !runPressed)
+        if (leftPressed && velocityX > -0.5f)
         {
             velocityX -= Time.deltaTime * accelerationX;
         }
         //move right
-        if (rightPressed && velocityX < 0.5f && !runPressed)
+        if (rightPressed && velocityX < 0.5f)
         {
             velocityX += Time.deltaTime * accelerationX;
         }
+    }
+
+    void LockOrResetVelocity(bool forwardPressed, bool backwardPressed, bool leftPressed, bool rightPressed, bool runPressed, float currenMaxVelocity)
+    {
 
         //stop when not moving left
-        if(!leftPressed && velocityX < 0)
+        if (!leftPressed && velocityX < 0)
         {
             velocityX += Time.deltaTime * decceleration;
         }
@@ -84,21 +81,41 @@ public class AnimationStateController : MonoBehaviour
         {
             velocityZ += Time.deltaTime * decceleration;
         }
-        //stop moving Z
+        //lock stop moving Z
         if (!forwardPressed && !backwardPressed && velocityZ != 0 && (velocityZ < 0.05f && velocityZ > 0.05f))
         {
             velocityZ = 0;
         }
 
-        //stop moving X
+        //lock stop moving X
         if (!leftPressed && !rightPressed && velocityX != 0 && (velocityX < 0.05f && velocityX > 0.05f))
         {
             velocityX = 0;
         }
 
 
-        velocityZ = Mathf.Clamp(velocityZ, -0.5f, 2);
-        velocityX = Mathf.Clamp(velocityX, -2, 2);
+        Mathf.Clamp(velocityZ, -0.5f, 2);
+        Mathf.Clamp(velocityX, -0.5f, 0.5f);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+        
+        bool forwardPressed = Input.GetKey(KeyCode.W);
+        bool backwardPressed = Input.GetKey(KeyCode.S);
+        bool leftPressed = Input.GetKey(KeyCode.A);
+        bool rightPressed = Input.GetKey(KeyCode.D);
+        bool runPressed = Input.GetKey(KeyCode.LeftShift);
+
+        //set current maxVelocity
+        float currentMaxVelocity = runPressed ? maxRunVelocity : maxWalkVelocity;
+
+
+        LockOrResetVelocity(forwardPressed, backwardPressed, leftPressed, rightPressed, runPressed,currentMaxVelocity);
+        ChangeVelocity(forwardPressed, backwardPressed, leftPressed, rightPressed, runPressed, currentMaxVelocity);
+        //set params in animator
         animator.SetFloat(velocityXHash, velocityX);
         animator.SetFloat(velocityZHash, velocityZ);
     }

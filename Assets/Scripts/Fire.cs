@@ -35,7 +35,7 @@ public class Fire : MonoBehaviour
         {
             entity.gameObject.GetComponent<Health>().RemoveOnFire();
         }
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     IEnumerator ExtinguishAfterTime()

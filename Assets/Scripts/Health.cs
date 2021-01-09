@@ -8,6 +8,7 @@ public class Health : MonoBehaviour
     [Header("General")]
     [SerializeField] float maxHP = 100;
 
+
     [Header("Fire")]
     [SerializeField] float fireDamage = 10;
     [SerializeField] float fireDamageInterval;
@@ -17,9 +18,18 @@ public class Health : MonoBehaviour
     bool onFire;
     bool onFirecoroutineActive;
 
+    [SerializeField] float currentHP; //Serialized for Debug
 
-    float currentHP;
+
+
+
+
+    //Cached Component Reference
     IEnumerator onFireCoroutine;
+
+
+
+
     void Start()
     {
 
@@ -32,6 +42,7 @@ public class Health : MonoBehaviour
 
     void Update()
     {
+        CheckHP();
     }
 
     public void SetOnFire()
@@ -59,6 +70,19 @@ public class Health : MonoBehaviour
             yield return new WaitForSeconds(fireDamageInterval);
             currentHP -= fireDamage;
             
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        currentHP -= damage;
+    }
+
+    void CheckHP()
+    {
+        if (currentHP <= 0)
+        {
+            Debug.Log(gameObject.name + (" Dead"));
         }
     }
 }

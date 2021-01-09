@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Flammable : MonoBehaviour
 {
-    [SerializeField] float timeToBurnDown = 5;
+    [SerializeField] float timeToBurnDown = 20;
     //States
     bool isBurning;
 

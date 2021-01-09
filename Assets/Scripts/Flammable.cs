@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Flammable : MonoBehaviour
 {
+    [SerializeField] bool burnsDown;
     [SerializeField] float timeToBurnDown = 20;
     //States
     bool isBurning;
@@ -27,7 +28,11 @@ public class Flammable : MonoBehaviour
         {
             fireChildObject.SetActive(true);
             isBurning = true;
-            StartCoroutine("BurnDown");
+            if (burnsDown)
+            {
+                StartCoroutine("BurnDown");
+            }
+            
         }
     }
 
@@ -37,6 +42,10 @@ public class Flammable : MonoBehaviour
         {
             fireChildObject.SetActive(false);
             isBurning = false;
+            if (burnsDown)
+            {
+                StopCoroutine("BurnDown");
+            }
         }
     }
 

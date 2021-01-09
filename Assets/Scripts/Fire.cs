@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class Fire : MonoBehaviour
 {
+    [SerializeField] bool extinguishAfterTime;
     [SerializeField] float timeToExtinguish;
-
     List<Collider> entitiesInFire;
     private void Start()
     {
         
         entitiesInFire = new List<Collider>();
-        StartCoroutine("ExtinguishAfterTime");
+        if (extinguishAfterTime)
+        {
+            StartCoroutine("ExtinguishAfterTime");
+        }
     }
 
     //called when enabled
@@ -19,12 +22,18 @@ public class Fire : MonoBehaviour
     {
         
         entitiesInFire = new List<Collider>();
-        StartCoroutine("ExtinguishAfterTime");
+        if (extinguishAfterTime)
+        {
+            StartCoroutine("ExtinguishAfterTime");
+        }
     }
 
     private void OnDisable()
     {
-        StopCoroutine("ExtinguishAfterTime");
+        if (extinguishAfterTime)
+        {
+            StopCoroutine("ExtinguishAfterTime");
+        }
     }
     
 
@@ -47,8 +56,11 @@ public class Fire : MonoBehaviour
 
      public void ResetExtinguishTimer()
     {
-        StopCoroutine("ExtinguishAfterTime");
-        StartCoroutine("ExtinguishAfterTime");
+        if (extinguishAfterTime)
+        {
+            StopCoroutine("ExtinguishAfterTime");
+            StartCoroutine("ExtinguishAfterTime");
+        }
     }
 
 

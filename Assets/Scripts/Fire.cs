@@ -6,35 +6,49 @@ public class Fire : MonoBehaviour
 {
     [SerializeField] float timeToExtinguish;
 
-
-    
     List<Collider> entitiesInFire;
     private void Start()
     {
+        
         entitiesInFire = new List<Collider>();
-        StartCoroutine("Extinguish");
-    }
-    void Update()
-    {
-        
-        
+        StartCoroutine("ExtinguishAfterTime");
     }
 
-
-    IEnumerator Extinguish()
+    //called when enabled
+    private void OnEnable()
     {
-        yield return new WaitForSeconds(timeToExtinguish);
+        
+        entitiesInFire = new List<Collider>();
+        StartCoroutine("ExtinguishAfterTime");
+    }
+
+    private void OnDisable()
+    {
+        StopCoroutine("ExtinguishAfterTime");
+    }
+    
+
+    
+    void Extinguish()
+    {
         foreach (Collider entity in entitiesInFire)
         {
             entity.gameObject.GetComponent<Health>().RemoveOnFire();
         }
+        Destroy(gameObject);
+    }
+
+    IEnumerator ExtinguishAfterTime()
+    {
+        yield return new WaitForSeconds(timeToExtinguish);
+        Extinguish();
         
     }
 
      public void ResetExtinguishTimer()
     {
-        StopCoroutine("Extinguish");
-        StartCoroutine("Extinguish");
+        StopCoroutine("ExtinguishAfterTime");
+        StartCoroutine("ExtinguishAfterTime");
     }
 
 
@@ -48,6 +62,10 @@ public class Fire : MonoBehaviour
             {
                 entitiesInFire.Add(other);
             }
+        }
+        if (other.gameObject.GetComponent<Flammable>() != null)
+        {
+            other.gameObject.GetComponent<Flammable>().SetBurning();
         }
     }
 

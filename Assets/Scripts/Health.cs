@@ -15,16 +15,19 @@ public class Health : MonoBehaviour
 
     //States
     bool onFire;
+    bool onFirecoroutineActive;
 
 
     float currentHP;
     IEnumerator onFireCoroutine;
     void Start()
     {
+
         currentHP = maxHP;
 
         //save coroutines in variables
         onFireCoroutine = OnFire();
+        onFirecoroutineActive = false;
     }
 
     void Update()
@@ -34,21 +37,28 @@ public class Health : MonoBehaviour
     public void SetOnFire()
     {
         onFire = true;
-        StartCoroutine(onFireCoroutine);
+
+        if (!onFirecoroutineActive)
+        {
+            StartCoroutine(onFireCoroutine);
+        }
     }
 
     public void RemoveOnFire()
     {
         onFire = false;
         StopCoroutine(onFireCoroutine);
+        onFirecoroutineActive = false;
     }
 
     IEnumerator OnFire()
     {
+        onFirecoroutineActive = true;
         while (onFire)
         {
             yield return new WaitForSeconds(fireDamageInterval);
             currentHP -= fireDamage;
+            
         }
     }
 }

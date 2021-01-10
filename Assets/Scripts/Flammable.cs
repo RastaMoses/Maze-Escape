@@ -22,7 +22,6 @@ public class Flammable : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(fireColliderList.Count);
     }
 
 
@@ -57,7 +56,6 @@ public class Flammable : MonoBehaviour
             // ExtinguishTimer Restart
             else
             {
-                Debug.Log("Restart Extinguish Timer");
                 fireChildObject.GetComponent<Fire>().ResetExtinguishTimer();
                 isBurning = true;
             }

@@ -59,8 +59,6 @@ public class Fire : MonoBehaviour
     
     void Extinguish()
     {
-
-        Debug.Log("Extinguish");
         if (GetComponentInParent<Flammable>())
         {
             GetComponentInParent<Flammable>().RemoveBurning();

@@ -21,7 +21,6 @@ public class WindGun : MonoBehaviour
     
     void Explode()
     {
-        Debug.Log("EXPLOSION");
         Vector3 explosionPosition = GetComponentInParent<Transform>().position;
         foreach (Collider hit in triggerList)
         {

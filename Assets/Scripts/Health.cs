@@ -16,12 +16,12 @@ public class Health : MonoBehaviour
 
     //States
     bool onFire;
-    bool onFirecoroutineActive;
+    [SerializeField] bool onFirecoroutineActive; //for Debug serialized
 
     [SerializeField] float currentHP; //Serialized for Debug
 
 
-
+    List<Collider> fireColliderList;
 
 
     //Cached Component Reference
@@ -38,6 +38,7 @@ public class Health : MonoBehaviour
         //save coroutines in variables
         onFireCoroutine = OnFire();
         onFirecoroutineActive = false;
+        fireColliderList = new List<Collider>();
     }
 
     void Update()
@@ -47,28 +48,35 @@ public class Health : MonoBehaviour
 
     public void SetOnFire()
     {
+        //Sets onfire, if coroutine not already active
         onFire = true;
 
         if (!onFirecoroutineActive)
         {
+
+            onFirecoroutineActive = true;
             StartCoroutine(onFireCoroutine);
         }
     }
 
     public void RemoveOnFire()
     {
-        onFire = false;
-        StopCoroutine(onFireCoroutine);
-        onFirecoroutineActive = false;
+        //if there is no fire, will stop burning coroutine
+        if (fireColliderList.Count == 0)
+        {
+            onFire = false;
+            StopCoroutine(onFireCoroutine);
+            onFirecoroutineActive = false;
+        }
+
     }
 
-    IEnumerator OnFire()
+    IEnumerator OnFire() //Deals damage while on fire
     {
-        onFirecoroutineActive = true;
         while (onFire)
         {
             yield return new WaitForSeconds(fireDamageInterval);
-            currentHP -= fireDamage;
+            TakeDamage(fireDamage);
             
         }
     }
@@ -76,13 +84,47 @@ public class Health : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHP -= damage;
+        DamagePopUp(damage); //Test
     }
 
     void CheckHP()
     {
+        //Checks if dead
         if (currentHP <= 0)
         {
             Debug.Log(gameObject.name + (" Dead"));
+        }
+    }
+
+    public void AddToFireList(Collider fire)
+    {
+        //Adds if not already to all active fires list
+        if (!fireColliderList.Contains(fire))
+        {
+            fireColliderList.Add(fire);
+        }
+    }
+
+    public void RemoveFromFireList(Collider fire)
+    {
+        //Removes if there from active fires list
+        if (fireColliderList.Contains(fire))
+        {
+            fireColliderList.Remove(fire);
+        }
+        
+    }
+
+
+
+
+
+    //Testing
+    void DamagePopUp(float damage)
+    {
+        if (GetComponent<DamagePopUp>())
+        {
+            GetComponent<DamagePopUp>().PopUp((int)damage);
         }
     }
 }

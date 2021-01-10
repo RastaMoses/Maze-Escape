@@ -6,11 +6,13 @@ public class Fire : MonoBehaviour
 {
     [SerializeField] bool extinguishAfterTime;
     [SerializeField] float timeToExtinguish;
-    List<Collider> entitiesInFire;
+    List<Collider> healthEntitiesInFire;
+    List<Collider> flammableEntitiesInFire;
     private void Start()
     {
         
-        entitiesInFire = new List<Collider>();
+        healthEntitiesInFire = new List<Collider>();
+        flammableEntitiesInFire = new List<Collider>();
         if (extinguishAfterTime)
         {
             StartCoroutine("ExtinguishAfterTime");
@@ -21,15 +23,32 @@ public class Fire : MonoBehaviour
     private void OnEnable()
     {
         
-        entitiesInFire = new List<Collider>();
+        healthEntitiesInFire = new List<Collider>();
         if (extinguishAfterTime)
         {
             StartCoroutine("ExtinguishAfterTime");
         }
+
     }
 
     private void OnDisable()
     {
+        foreach (Collider entity in healthEntitiesInFire)
+        {
+            entity.gameObject.GetComponent<Health>().RemoveOnFire();
+        }
+
+        if (flammableEntitiesInFire.Count != 0)
+        {
+            foreach (Collider entity in flammableEntitiesInFire)
+            {
+                if (entity)
+                {
+                    entity.gameObject.GetComponent<Flammable>().RemoveFireColliderFromList(gameObject.GetComponent<Collider>());
+                }
+
+            }
+        }
         if (extinguishAfterTime)
         {
             StopCoroutine("ExtinguishAfterTime");
@@ -40,13 +59,19 @@ public class Fire : MonoBehaviour
     
     void Extinguish()
     {
-        foreach (Collider entity in entitiesInFire)
+
+        Debug.Log("Extinguish");
+        if (GetComponentInParent<Flammable>())
         {
-            entity.gameObject.GetComponent<Health>().RemoveOnFire();
+            GetComponentInParent<Flammable>().RemoveBurning();
         }
-        gameObject.SetActive(false);
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 
+    
     IEnumerator ExtinguishAfterTime()
     {
         yield return new WaitForSeconds(timeToExtinguish);
@@ -70,28 +95,45 @@ public class Fire : MonoBehaviour
         {
             var entityHealth = other.gameObject.GetComponent<Health>();
             entityHealth.SetOnFire();
-            if (!entitiesInFire.Contains(other))
+            if (!healthEntitiesInFire.Contains(other))
             {
-                entitiesInFire.Add(other);
+                healthEntitiesInFire.Add(other);
             }
         }
-        if (other.gameObject.GetComponent<Flammable>() != null)
+        if (other.gameObject.GetComponent<Flammable>())
         {
+            if (!flammableEntitiesInFire.Contains(other))
+            {
+                flammableEntitiesInFire.Add(other);
+            }
+
+            other.gameObject.GetComponent<Flammable>().AddFireColliderToList(this.gameObject.GetComponent<Collider>());
             other.gameObject.GetComponent<Flammable>().SetBurning();
         }
+
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.gameObject.GetComponent<Health>() != null)
+
+        if (other.gameObject.GetComponent<Health>())
         {
             var entityHealth = other.gameObject.GetComponent<Health>();
             entityHealth.RemoveOnFire();
-            if (entitiesInFire.Contains(other))
+            if (healthEntitiesInFire.Contains(other))
             {
-                entitiesInFire.Remove(other);
+                healthEntitiesInFire.Remove(other);
             }
 
+        }
+        if (other.gameObject.GetComponent<Flammable>())
+        {
+            if (flammableEntitiesInFire.Contains(other))
+            {
+                flammableEntitiesInFire.Remove(other);
+            }
+
+            other.gameObject.GetComponent<Flammable>().RemoveFireColliderFromList(this.gameObject.GetComponent<Collider>());
         }
     }
     

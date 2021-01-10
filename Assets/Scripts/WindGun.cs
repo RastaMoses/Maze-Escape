@@ -7,6 +7,7 @@ public class WindGun : MonoBehaviour
     [Header("Explosion")]
     [SerializeField] float radius;
     [SerializeField] float power;
+    [SerializeField] float upwardsPower;
 
     List<Collider> triggerList = new List<Collider>();
     // Update is called once per frame
@@ -25,7 +26,7 @@ public class WindGun : MonoBehaviour
         foreach (Collider hit in triggerList)
         {
             Rigidbody rb = hit.GetComponent<Rigidbody>();
-            rb.AddExplosionForce(power, explosionPosition, radius);
+            rb.AddExplosionForce(power, explosionPosition, radius, upwardsPower);
 
         }
 

@@ -6,26 +6,31 @@ public class Flammable : MonoBehaviour
 {
     [SerializeField] bool burnsDown;
     [SerializeField] float timeToBurnDown = 20;
+
     //States
     bool isBurning;
-
+    
     GameObject fireChildObject;
+    List<Collider> fireColliderList;
 
     private void Start()
     {
+        fireColliderList = new List<Collider>();
         isBurning = false;
         fireChildObject = gameObject.transform.GetChild(0).gameObject;
     }
-    void Update()
+
+    private void Update()
     {
-        
+        Debug.Log(fireColliderList.Count);
     }
 
 
-     public void SetBurning()
+    public void SetBurning()
     {
         if (!isBurning)
         {
+
             fireChildObject.SetActive(true);
             isBurning = true;
             if (burnsDown)
@@ -40,22 +45,33 @@ public class Flammable : MonoBehaviour
     {
         if (isBurning)
         {
-            fireChildObject.SetActive(false);
             isBurning = false;
-            if (burnsDown)
+            if (fireColliderList.Count == 1) //if there is no other fire around, stops burning if fire is extinguished
             {
-                StopCoroutine("BurnDown");
+                fireChildObject.SetActive(false);
+                if (burnsDown) //Burn Down Coroutine is reset to 0
+                {
+                    StopCoroutine("BurnDown");
+                }
             }
+            // ExtinguishTimer Restart
+            else
+            {
+                Debug.Log("Restart Extinguish Timer");
+                fireChildObject.GetComponent<Fire>().ResetExtinguishTimer();
+                isBurning = true;
+            }
+            
         }
     }
 
 
     IEnumerator BurnDown()
     {
+        //Destroys gameObject after certain time of constant burning
         yield return new WaitForSeconds(timeToBurnDown);
         RemoveBurning();
         StartCoroutine("DestroySelf");
-        
     }
 
     IEnumerator DestroySelf()
@@ -63,5 +79,20 @@ public class Flammable : MonoBehaviour
         yield return new WaitForSeconds(0);
         Destroy(gameObject);
     }
-    
+
+    //Need list to safe all active fires touching object
+    public void RemoveFireColliderFromList(Collider collider)
+    {
+        if (fireColliderList.Contains(collider))
+        {
+            fireColliderList.Remove(collider);
+        }
+    }
+    public void AddFireColliderToList(Collider collider)
+    {
+        if (!fireColliderList.Contains(collider))
+        {
+            fireColliderList.Add(collider);
+        }
+    }
 }

@@ -21,15 +21,21 @@ public class WindGun : MonoBehaviour
     
     void Explode()
     {
-        Vector3 explosionPosition = GetComponentInParent<Transform>().position;
+        Vector3 explosionPosition = GetComponentInParent<Transform>().position; //Determin position where explosion comes from (player)
         foreach (Collider hit in triggerList)
         {
-            Rigidbody rb = hit.GetComponent<Rigidbody>();
-            rb.AddExplosionForce(power, explosionPosition, radius, upwardsPower);
-
+            
+            if (hit) //if collider hasnt been destroyed while inside trigger zone
+            {
+                //Add explosionforce to all rigidbodies in zone
+                Rigidbody rb = hit.GetComponent<Rigidbody>();
+                rb.AddExplosionForce(power, explosionPosition, radius, upwardsPower);
+            }
         }
 
     }
+
+    //Add entity to collider list, if enters zone and has rigidbody
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<Rigidbody>() != null && !triggerList.Contains(other))
@@ -38,6 +44,7 @@ public class WindGun : MonoBehaviour
         }
     }
 
+    //Remove from affected collider list if exits zone
     private void OnTriggerExit(Collider other)
     {
         if (other.GetComponent<Rigidbody>() != null && triggerList.Contains(other))

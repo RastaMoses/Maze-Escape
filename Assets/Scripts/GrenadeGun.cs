@@ -12,7 +12,7 @@ public class GrenadeGun : MonoBehaviour
     [SerializeField] bool impactGrenade;
 
     //States
-    [SerializeField] bool onCooldown = false; //Debug
+    bool onCooldown = false;
 
 
 

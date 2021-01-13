@@ -12,11 +12,14 @@ public class AnimationStateController : MonoBehaviour
     [SerializeField] float decceleration = 1;
     [SerializeField] float maxWalkVelocity = 0.5f;
     [SerializeField] float maxRunVelocity = 2;
+    [SerializeField] float velocityToSkipLandAnimation = 0.1f;
 
     //States
 
     int velocityXHash;
     int velocityZHash;
+    int isJumpingHash;
+    int playLandingHash;
     float velocityX;
     float velocityZ;
 
@@ -28,19 +31,25 @@ public class AnimationStateController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Set Hashes for better performance
         animator = GetComponent<Animator>();
         velocityXHash = Animator.StringToHash("velocity X");
         velocityZHash = Animator.StringToHash("velocity Z");
+        isJumpingHash = Animator.StringToHash("isJumping");
+        playLandingHash = Animator.StringToHash("playLanding");
     }
 
     void ChangeVelocity(bool forwardPressed, bool backwardPressed, bool leftPressed, bool rightPressed, bool runPressed, float currentMaxVelocity)
     {
         //Walking forward
-        if (forwardPressed && velocityZ < currentMaxVelocity && !backwardPressed)
+        if ((forwardPressed || backwardPressed || leftPressed || rightPressed) && velocityZ < currentMaxVelocity && !backwardPressed)
         {
             velocityZ += Time.deltaTime * accelerationForward;
         }
+        
 
+
+        /*
         //move backward
         if (backwardPressed && velocityZ > -0.5f && !forwardPressed)
         {
@@ -56,11 +65,12 @@ public class AnimationStateController : MonoBehaviour
         {
             velocityX += Time.deltaTime * accelerationX;
         }
+        */
     }
 
     void LockOrResetVelocity(bool forwardPressed, bool backwardPressed, bool leftPressed, bool rightPressed, bool runPressed, float currenMaxVelocity)
     {
-
+        /*
         //stop when not moving left
         if (!leftPressed && velocityX < 0)
         {
@@ -71,26 +81,53 @@ public class AnimationStateController : MonoBehaviour
         {
             velocityX -= Time.deltaTime * decceleration;
         }
-        //stop when stop forward movement
-        if (!forwardPressed && velocityZ > 0 || (forwardPressed && backwardPressed && velocityZ > 0))
+        */
+
+
+
+
+        //stop when stop forward movement button
+        if (!forwardPressed && !backwardPressed && !leftPressed && !rightPressed && velocityZ > 0 || (forwardPressed && backwardPressed && velocityZ > 0) || (leftPressed && rightPressed && velocityZ > 0))
         {
             velocityZ -= Time.deltaTime * decceleration;
         }
+        
+
+        /*
         //stop when backward stop
         if (!backwardPressed && velocityZ < 0 || (forwardPressed && backwardPressed && velocityZ < 0))
         {
             velocityZ += Time.deltaTime * decceleration;
         }
+        */
+
+
+
+
         //lock stop moving Z
-        if (!forwardPressed && !backwardPressed && velocityZ != 0 && (velocityZ < 0.05f && velocityZ > 0.05f))
+        if (!forwardPressed && !backwardPressed && !rightPressed && !leftPressed && velocityZ != 0 && (velocityZ < 0.05f && velocityZ > 0.05f))
         {
             velocityZ = 0;
         }
+        
+        
+        
 
+        /*
         //lock stop moving X
         if (!leftPressed && !rightPressed && velocityX != 0 && (velocityX < 0.05f && velocityX > 0.05f))
         {
             velocityX = 0;
+        }
+
+        */
+
+
+
+        //lock stop runnning, when not run pressed, but still forward pressed
+        if (!runPressed && (forwardPressed || backwardPressed || leftPressed || rightPressed) && velocityZ > 0.5f)
+        {
+            velocityZ -= Time.deltaTime * decceleration;
         }
 
 
@@ -104,6 +141,7 @@ public class AnimationStateController : MonoBehaviour
         
         
         bool forwardPressed = Input.GetKey(KeyCode.W);
+        
         bool backwardPressed = Input.GetKey(KeyCode.S);
         bool leftPressed = Input.GetKey(KeyCode.A);
         bool rightPressed = Input.GetKey(KeyCode.D);
@@ -118,16 +156,27 @@ public class AnimationStateController : MonoBehaviour
         //set params in animator
         animator.SetFloat(velocityXHash, velocityX);
         animator.SetFloat(velocityZHash, velocityZ);
+
+        //Skip landing animation if fast in air
+        if (velocityZ > velocityToSkipLandAnimation && (forwardPressed || backwardPressed || leftPressed || rightPressed) && animator.GetBool(isJumpingHash))
+        {
+
+            animator.SetBool(playLandingHash, false);
+        }
+        else if (animator.GetBool(isJumpingHash))
+        {
+
+            animator.SetBool(playLandingHash, true);
+        }
     }
 
     public void Jump()
     {
-        animator.SetBool("isJumping", true);
+        animator.SetBool(isJumpingHash, true);
     }
 
     public void Land()
     {
-        Debug.Log("Landed animation");
-        animator.SetBool("isJumping", false);
+        animator.SetBool(isJumpingHash, false);
     }
 }

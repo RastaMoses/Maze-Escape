@@ -13,15 +13,20 @@ public class AnimationStateController : MonoBehaviour
     [SerializeField] float maxWalkVelocity = 0.5f;
     [SerializeField] float maxRunVelocity = 2;
     [SerializeField] float velocityToSkipLandAnimation = 0.1f;
-
+    [SerializeField] float timeIdleUntilNewAnimation = 10;
+    [SerializeField] int amountOfIdleAnimations;
     //States
+    bool idle;
+    float idleTime;
 
+    float velocityX; 
+    float velocityZ; 
+    //Hashes
     int velocityXHash;
     int velocityZHash;
     int isJumpingHash;
     int playLandingHash;
-    float velocityX;
-    float velocityZ;
+    int idleAnimationHash;
 
 
 
@@ -32,13 +37,19 @@ public class AnimationStateController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Set Hashes for better performance
+        idle = true;
+        idleTime = 0;
+
         animator = GetComponent<Animator>();
         sfx = GetComponent<SFXControllerPlayer>();
+
+        //Set Hashes for better performance
         velocityXHash = Animator.StringToHash("velocity X");
         velocityZHash = Animator.StringToHash("velocity Z");
         isJumpingHash = Animator.StringToHash("isJumping");
         playLandingHash = Animator.StringToHash("playLanding");
+        idleAnimationHash = Animator.StringToHash("idleAnimation");
+
     }
 
     void ChangeVelocity(bool forwardPressed, bool backwardPressed, bool leftPressed, bool rightPressed, bool runPressed, float currentMaxVelocity)
@@ -50,81 +61,28 @@ public class AnimationStateController : MonoBehaviour
         }
         
 
-
-        /*
-        //move backward
-        if (backwardPressed && velocityZ > -0.5f && !forwardPressed)
-        {
-            velocityZ -= Time.deltaTime * accelerationBackward;
-        }
-        //move left
-        if (leftPressed && velocityX > -0.5f)
-        {
-            velocityX -= Time.deltaTime * accelerationX;
-        }
-        //move right
-        if (rightPressed && velocityX < 0.5f)
-        {
-            velocityX += Time.deltaTime * accelerationX;
-        }
-        */
     }
 
     void LockOrResetVelocity(bool forwardPressed, bool backwardPressed, bool leftPressed, bool rightPressed, bool runPressed, float currenMaxVelocity)
     {
-        /*
-        //stop when not moving left
-        if (!leftPressed && velocityX < 0)
-        {
-            velocityX += Time.deltaTime * decceleration;
-        }
-        //stop when not moving right
-        if (!rightPressed && velocityX > 0)
-        {
-            velocityX -= Time.deltaTime * decceleration;
-        }
-        */
+ 
 
-
-
-
-        //stop when stop forward movement button
+        //deccelerate when stop forward movement button
         if (!forwardPressed && !backwardPressed && !leftPressed && !rightPressed && velocityZ > 0 || (forwardPressed && backwardPressed && velocityZ > 0) || (leftPressed && rightPressed && velocityZ > 0))
         {
             velocityZ -= Time.deltaTime * decceleration;
         }
-        
-
-        /*
-        //stop when backward stop
-        if (!backwardPressed && velocityZ < 0 || (forwardPressed && backwardPressed && velocityZ < 0))
-        {
-            velocityZ += Time.deltaTime * decceleration;
-        }
-        */
-
 
 
 
         //lock stop moving Z
-        if (!forwardPressed && !backwardPressed && !rightPressed && !leftPressed && velocityZ != 0 && (velocityZ < 0.05f && velocityZ > 0.05f))
+        if (!forwardPressed && !backwardPressed && !rightPressed && !leftPressed && velocityZ != 0 && (velocityZ < 0.05f && velocityZ > -0.05f))
         {
+
             velocityZ = 0;
         }
         
-        
-        
-
-        /*
-        //lock stop moving X
-        if (!leftPressed && !rightPressed && velocityX != 0 && (velocityX < 0.05f && velocityX > 0.05f))
-        {
-            velocityX = 0;
-        }
-
-        */
-
-
+     
 
         //lock stop runnning, when not run pressed, but still forward pressed
         if (!runPressed && (forwardPressed || backwardPressed || leftPressed || rightPressed) && velocityZ > 0.5f)
@@ -141,7 +99,7 @@ public class AnimationStateController : MonoBehaviour
     void Update()
     {
         
-        
+        //Assign Inputs
         bool forwardPressed = Input.GetKey(KeyCode.W);
         
         bool backwardPressed = Input.GetKey(KeyCode.S);
@@ -153,8 +111,14 @@ public class AnimationStateController : MonoBehaviour
         float currentMaxVelocity = runPressed ? maxRunVelocity : maxWalkVelocity;
 
 
-        LockOrResetVelocity(forwardPressed, backwardPressed, leftPressed, rightPressed, runPressed,currentMaxVelocity);
+
+
         ChangeVelocity(forwardPressed, backwardPressed, leftPressed, rightPressed, runPressed, currentMaxVelocity);
+
+        LockOrResetVelocity(forwardPressed, backwardPressed, leftPressed, rightPressed, runPressed, currentMaxVelocity);
+
+
+
         //set params in animator
         animator.SetFloat(velocityXHash, velocityX);
         animator.SetFloat(velocityZHash, velocityZ);
@@ -170,6 +134,44 @@ public class AnimationStateController : MonoBehaviour
 
             animator.SetBool(playLandingHash, true);
         }
+
+
+
+        //Check if idle
+        if (velocityZ == 0 && !animator.GetBool(isJumpingHash))
+        {
+            idle = true;
+            animator.SetBool("idleInterrupt", false);
+        }
+        else
+        {
+            idle = false;
+            animator.SetBool("idleInterrupt", true);
+        }
+
+
+        //Idle Counter
+        if (idle)
+        {
+            idleTime += Time.deltaTime;
+
+        }
+        else
+        {
+            idleTime = 0;
+
+        }
+
+        //If idle for some time, will play other idle animation
+        if (idleTime >= timeIdleUntilNewAnimation)
+        {
+            int randomAnimation = Random.Range(0, amountOfIdleAnimations);
+            Debug.Log(randomAnimation);
+            animator.SetInteger(idleAnimationHash,randomAnimation);
+            animator.SetTrigger("idleAnimationTrigger");
+            idleTime = 0;
+        }
+
     }
 
     public void Jump()

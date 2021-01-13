@@ -338,6 +338,8 @@ MonoBehaviour:
   maxWalkVelocity: 0.5
   maxRunVelocity: 1
   velocityToSkipLandAnimation: 0.6
+  timeIdleUntilNewAnimation: 15
+  amountOfIdleAnimations: 2
 --- !u!143 &165267559
 CharacterController:
   m_ObjectHideFlags: 0
@@ -490,7 +492,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28e054c2c256b214eb5e87b670733d23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpSFXList: []
+  jumpSFXList:
+  - {fileID: 8300000, guid: d15603cfc8935f0438dcfb3a32dbd812, type: 3}
+  - {fileID: 8300000, guid: 403a7087fe71d4f4bb4d8f054d0dc472, type: 3}
+  - {fileID: 8300000, guid: 1bad5845d6c8dd64fbd089bc1ea5f1ff, type: 3}
   walkSFX: {fileID: 0}
   runSFX: {fileID: 0}
 --- !u!81 &165267563

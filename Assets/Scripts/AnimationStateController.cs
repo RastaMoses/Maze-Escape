@@ -34,6 +34,7 @@ public class AnimationStateController : MonoBehaviour
     {
         //Set Hashes for better performance
         animator = GetComponent<Animator>();
+        sfx = GetComponent<SFXControllerPlayer>();
         velocityXHash = Animator.StringToHash("velocity X");
         velocityZHash = Animator.StringToHash("velocity Z");
         isJumpingHash = Animator.StringToHash("isJumping");
@@ -132,7 +133,7 @@ public class AnimationStateController : MonoBehaviour
         }
 
 
-        Mathf.Clamp(velocityZ, -0.5f, 2);
+        Mathf.Clamp(velocityZ, -0.5f, maxRunVelocity);
         Mathf.Clamp(velocityX, -0.5f, 0.5f);
     }
 
@@ -174,6 +175,7 @@ public class AnimationStateController : MonoBehaviour
     public void Jump()
     {
         animator.SetBool(isJumpingHash, true);
+        sfx.PlayJumpSFX();
     }
 
     public void Land()

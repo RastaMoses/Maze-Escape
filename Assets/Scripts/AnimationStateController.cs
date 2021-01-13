@@ -27,6 +27,7 @@ public class AnimationStateController : MonoBehaviour
 
     //Cached components
     Animator animator;
+    SFXControllerPlayer sfx;
 
     // Start is called before the first frame update
     void Start()

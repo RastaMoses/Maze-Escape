@@ -17,8 +17,8 @@ public class SFXControllerPlayer : MonoBehaviour
     }
     public void PlayJumpSFX()
     {
-        int i = Random.Range(0, jumpSFXList.Length);
-        audioSource.PlayOneShot(jumpSFXList[i - 1]);
+        int i = Random.Range(0, jumpSFXList.Length - 1);
+        audioSource.PlayOneShot(jumpSFXList[i]);
     }
    
 }

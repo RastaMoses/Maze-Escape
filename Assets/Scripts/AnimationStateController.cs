@@ -109,7 +109,10 @@ public class AnimationStateController : MonoBehaviour
 
         //set current maxVelocity
         float currentMaxVelocity = runPressed ? maxRunVelocity : maxWalkVelocity;
-
+        if (animator.GetBool(isJumpingHash))
+        {
+            currentMaxVelocity = maxWalkVelocity;
+        }
 
 
 

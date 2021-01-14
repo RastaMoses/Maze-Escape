@@ -5,9 +5,7 @@ using UnityEngine;
 public class AnimationStateController : MonoBehaviour
 {
     //Params
-    [SerializeField] float accelerationX = 1;
     [SerializeField] float accelerationForward = 1;
-    [SerializeField] float accelerationBackward = 0.4f;
     [SerializeField] float sprintAcceleration = 0.6f;
     [SerializeField] float decceleration = 1;
     [SerializeField] float maxWalkVelocity = 0.5f;
@@ -20,7 +18,8 @@ public class AnimationStateController : MonoBehaviour
     float idleTime;
 
     float velocityX; 
-    float velocityZ; 
+    float velocityZ;
+    float currentMaxVelocity;
     //Hashes
     int velocityXHash;
     int velocityZHash;
@@ -92,14 +91,13 @@ public class AnimationStateController : MonoBehaviour
 
 
         //lock stop runnning, when not run pressed, but still forward pressed
-        if (!runPressed && (forwardPressed || backwardPressed || leftPressed || rightPressed) && velocityZ > 0.5f || animator.GetBool(isJumpingHash))
+        if (!runPressed && (forwardPressed || backwardPressed || leftPressed || rightPressed) && velocityZ > maxWalkVelocity)
         {
             velocityZ -= Time.deltaTime * decceleration;
         }
 
 
         Mathf.Clamp(velocityZ, -0.5f, maxRunVelocity);
-        Mathf.Clamp(velocityX, -0.5f, 0.5f);
     }
 
     // Update is called once per frame
@@ -115,11 +113,12 @@ public class AnimationStateController : MonoBehaviour
         bool runPressed = Input.GetKey(KeyCode.LeftShift);
 
         //set current maxVelocity
-        float currentMaxVelocity = runPressed ? maxRunVelocity : maxWalkVelocity;
-        if (animator.GetBool(isJumpingHash))
+        if (!animator.GetBool(isJumpingHash))
         {
-            currentMaxVelocity = maxWalkVelocity;
+
+            currentMaxVelocity = runPressed ? maxRunVelocity : maxWalkVelocity;
         }
+        
 
 
 
@@ -133,17 +132,6 @@ public class AnimationStateController : MonoBehaviour
         animator.SetFloat(velocityXHash, velocityX);
         animator.SetFloat(velocityZHash, velocityZ);
 
-        //Skip landing animation if fast in air
-        if (velocityZ > velocityToSkipLandAnimation && (forwardPressed || backwardPressed || leftPressed || rightPressed) && animator.GetBool(isJumpingHash))
-        {
-
-            animator.SetBool(playLandingHash, false);
-        }
-        else if (animator.GetBool(isJumpingHash))
-        {
-
-            animator.SetBool(playLandingHash, true);
-        }
 
 
 

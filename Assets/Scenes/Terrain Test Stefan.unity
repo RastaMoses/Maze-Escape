@@ -375,207 +375,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -455545341709682875, guid: 986d2bc19db1ea343ad9eebc41e8e0e5, type: 3}
   m_PrefabInstance: {fileID: 46323051}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &165267558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 165267555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5b79aebd5c2b0a4997d8519e7cb7900, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  accelerationX: 1
-  accelerationForward: 2
-  accelerationBackward: 0.4
-  sprintAcceleration: 5
-  decceleration: 3
-  maxWalkVelocity: 0.5
-  maxRunVelocity: 1
-  velocityToSkipLandAnimation: 0.6
-  timeIdleUntilNewAnimation: 15
-  amountOfIdleAnimations: 2
---- !u!143 &165267559
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 165267555}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 1.65
-  m_Radius: 0.2
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.85, z: 0}
---- !u!114 &165267560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 165267555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30d420e186066c04fbf683a5f6f6a11d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 165267559}
-  cam: {fileID: 644542217}
-  walkSpeed: 6
-  sprintSpeed: 12
-  strifeSpeed: 6
-  turnSmoothTime: 0.1
-  gravity: -9.81
-  jumpHeight: 3
-  jumpDelay: 0.1
-  groundCheck: {fileID: 913905004}
-  groundDistance: 0.1
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 256
-  enableFeetIK: 1
-  heightFromGroundRayCast: 1.14
-  rayCastDownDistance: 1.5
-  environmentLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  pelvisOffSet: 0
-  pelvisUpAndDownSpeed: 0.28
-  feetToIKPositionSpeed: 0.5
-  leftFootAnimVariableName: LeftFootCurve
-  rightFootAnimVariableName: RightFootCurve
-  useProIKFeature: 0
-  showSolverDebug: 1
---- !u!82 &165267561
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 165267555}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -4644680359544011211, guid: 1fa016ca7e8090c4f8e35e7487b78b13, type: 2}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
---- !u!114 &165267562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 165267555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28e054c2c256b214eb5e87b670733d23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpSFXList:
-  - {fileID: 8300000, guid: d15603cfc8935f0438dcfb3a32dbd812, type: 3}
-  - {fileID: 8300000, guid: 403a7087fe71d4f4bb4d8f054d0dc472, type: 3}
-  - {fileID: 8300000, guid: 1bad5845d6c8dd64fbd089bc1ea5f1ff, type: 3}
-  walkSFX: {fileID: 0}
-  runSFX: {fileID: 0}
---- !u!81 &165267563
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 165267555}
-  m_Enabled: 1
 --- !u!1 &197934026
 GameObject:
   m_ObjectHideFlags: 3
@@ -716,7 +515,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 203450532}
-  m_LocalRotation: {x: 0.17067233, y: -0.00000000847696, z: 0.0000000014683262, w: 0.98532784}
+  m_LocalRotation: {x: 0.17067233, y: 0.000000008476966, z: -0.0000000014683269, w: 0.98532784}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -805,7 +604,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 300537086}
-  m_LocalRotation: {x: 0.15272151, y: -0.000000008502271, z: 0.0000000013138924, w: 0.98826927}
+  m_LocalRotation: {x: 0.15272148, y: -0.000000008502269, z: 0.0000000013138919, w: 0.98826927}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1161,6 +960,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 256
+  jumpCooldown: 0.5
 --- !u!114 &582839412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1181,7 +981,7 @@ MonoBehaviour:
   maxWalkVelocity: 0.5
   maxRunVelocity: 1
   velocityToSkipLandAnimation: 0.6
-  timeIdleUntilNewAnimation: 15
+  timeIdleUntilNewAnimation: 30
   amountOfIdleAnimations: 2
 --- !u!143 &582839413
 CharacterController:
@@ -1510,8 +1310,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 644542214}
-  m_LocalRotation: {x: 0.15272151, y: -0.000000008502271, z: 0.0000000013138927, w: 0.98826927}
-  m_LocalPosition: {x: 15.151, y: 16.957, z: -3.2600002}
+  m_LocalRotation: {x: 0.1527215, y: -0.000000017004536, z: 0.0000000026277842, w: 0.98826927}
+  m_LocalPosition: {x: 12.682916, y: 16.85, z: -6.0248303}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

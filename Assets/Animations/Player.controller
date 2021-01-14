@@ -7,20 +7,17 @@ AnimatorStateTransition:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 3
-    m_ConditionEvent: velocity Z
-    m_EventTreshold: 0
+  m_Conditions: []
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7017948396637538406}
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.17745946
-  m_TransitionOffset: 0.044814233
-  m_ExitTime: 0.24535796
-  m_HasExitTime: 0
+  m_TransitionDuration: 0.66003114
+  m_TransitionOffset: 0.060779016
+  m_ExitTime: 0.526858
+  m_HasExitTime: 1
   m_HasFixedDuration: 0
   m_InterruptionSource: 1
   m_OrderedInterruption: 1
@@ -267,9 +264,9 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: playLanding
-    m_EventTreshold: 0
+  - m_ConditionMode: 4
+    m_ConditionEvent: velocity Z
+    m_EventTreshold: 0.5
   - m_ConditionMode: 2
     m_ConditionEvent: isJumping
     m_EventTreshold: 0
@@ -279,9 +276,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.098703906
-  m_TransitionOffset: 0.32153043
-  m_ExitTime: 0.9242645
+  m_TransitionDuration: 0.2130321
+  m_TransitionOffset: 0.18942688
+  m_ExitTime: 0.748318
   m_HasExitTime: 0
   m_HasFixedDuration: 0
   m_InterruptionSource: 1
@@ -386,12 +383,6 @@ AnimatorController:
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
   - m_Name: isJumping
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: playLanding
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -649,7 +640,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.7580645
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -690,9 +681,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: isJumping
     m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: playLanding
-    m_EventTreshold: 0
+  - m_ConditionMode: 3
+    m_ConditionEvent: velocity Z
+    m_EventTreshold: 0.5
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7466824427784328113}
   m_Solo: 0
@@ -839,8 +830,8 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Landing
-  m_Speed: 1.22
-  m_CycleOffset: 0.09
+  m_Speed: 1
+  m_CycleOffset: 0
   m_Transitions:
   - {fileID: -8713762751075591403}
   m_StateMachineBehaviours: []

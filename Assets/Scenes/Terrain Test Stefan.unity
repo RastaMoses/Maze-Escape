@@ -435,7 +435,7 @@ MonoBehaviour:
   turnSmoothTime: 0.1
   gravity: -9.81
   jumpHeight: 3
-  jumpDelay: 0.2
+  jumpDelay: 0.1
   groundCheck: {fileID: 913905004}
   groundDistance: 0.1
   groundMask:

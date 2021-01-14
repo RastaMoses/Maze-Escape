@@ -25,6 +25,8 @@ public class ThirdPersonMovement : MonoBehaviour
     Vector3 velocity;
     bool isJumping;
     bool isGrounded;
+    static bool canJump = true;
+    public float jumpCooldown = 0.5f;
 
 
     /*
@@ -64,13 +66,14 @@ public class ThirdPersonMovement : MonoBehaviour
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-        if (isGrounded && velocity.y < 0)
+        if (isGrounded && velocity.y <= 0)
         {
-            Debug.Log("is Grounded");
+            
             if (isJumping)
             {
                 GetComponent<AnimationStateController>().Land();
                 isJumping = false;
+                StartCoroutine(CoolDownFunction());
             }
 
 
@@ -86,10 +89,7 @@ public class ThirdPersonMovement : MonoBehaviour
         {
             walkSpeed = sprintSpeed;
         }
-        else
-        {
-            walkSpeed = walkSpeed;
-        }
+        
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             walkSpeed = 4f;
@@ -108,21 +108,34 @@ public class ThirdPersonMovement : MonoBehaviour
 
         }
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump") && isGrounded && canJump)
         {
             GetComponent<AnimationStateController>().Jump();
-            StartCoroutine(Jump());
+            StartCoroutine(Jump());        
         }
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+        
     }
     IEnumerator Jump()
     {
         yield return new WaitForSeconds(jumpDelay);
         velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         isJumping = true;
+
+       
     }
+     
+    IEnumerator CoolDownFunction()
+    {
+        
+        canJump = false;
+        yield return new WaitForSeconds(jumpCooldown);
+        canJump = true;
+        
+    }
+
 
 
 

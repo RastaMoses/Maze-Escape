@@ -55,7 +55,7 @@ public class AnimationStateController : MonoBehaviour
     void ChangeVelocity(bool forwardPressed, bool backwardPressed, bool leftPressed, bool rightPressed, bool runPressed, float currentMaxVelocity)
     {
         //Walking forward
-        if ((forwardPressed || backwardPressed || leftPressed || rightPressed) && velocityZ < currentMaxVelocity && !backwardPressed)
+        if ((forwardPressed || backwardPressed || leftPressed || rightPressed) && velocityZ < currentMaxVelocity)
         {
             velocityZ += Time.deltaTime * accelerationForward;
         }

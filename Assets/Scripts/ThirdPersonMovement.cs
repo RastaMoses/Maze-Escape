@@ -27,7 +27,7 @@ public class ThirdPersonMovement : MonoBehaviour
     bool isGrounded;
 
 
-
+    /*
     Vector3 rightFootPosition, leftFootPosition, leftFootIKPosition, rightFootIKPosition;
     Quaternion leftFootIKRotation, rightFootIKRotation;
     float lastPelvisPositionY, lastRightFootPositionY, lastLeftFootPositionY;
@@ -44,7 +44,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
     public bool useProIKFeature = false;
     public bool showSolverDebug = true;
-
+    */
 
     private void Start()
     {
@@ -55,6 +55,12 @@ public class ThirdPersonMovement : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        PlayerMovement();
+    }
+
+
+    void PlayerMovement()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
@@ -111,7 +117,6 @@ public class ThirdPersonMovement : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }
-
     IEnumerator Jump()
     {
         yield return new WaitForSeconds(jumpDelay);
@@ -131,7 +136,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
 
 
-
+    /*
     #region FeetGrounding
 
     /// <summary>
@@ -178,7 +183,7 @@ public class ThirdPersonMovement : MonoBehaviour
     }
     #endregion
 
-
+    
     #region FeetGroundingMethods
 
     /// <summary>
@@ -268,5 +273,7 @@ public class ThirdPersonMovement : MonoBehaviour
         feetPosition.y = transform.position.y + heightFromGroundRayCast;
     }
     #endregion
+    */
+    
 }
 

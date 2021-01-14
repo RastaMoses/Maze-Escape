@@ -738,7 +738,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 197934026}
-  m_LocalRotation: {x: 0.1347677, y: 0.000000008524705, z: -0.0000000011594323, w: 0.9908773}
+  m_LocalRotation: {x: 0.1347677, y: -0.000000008524705, z: 0.0000000011594323, w: 0.9908773}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1142,19 +1142,6 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 256
-  enableFeetIK: 1
-  heightFromGroundRayCast: 1.427
-  rayCastDownDistance: 1.184
-  environmentLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  pelvisOffSet: 0
-  pelvisUpAndDownSpeed: 0.28
-  feetToIKPositionSpeed: 0.5
-  leftFootAnimVariableName: LeftFootCurve
-  rightFootAnimVariableName: RightFootCurve
-  useProIKFeature: 0
-  showSolverDebug: 1
 --- !u!114 &582839412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3522,19 +3509,6 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 256
-  enableFeetIK: 1
-  heightFromGroundRayCast: 1.14
-  rayCastDownDistance: 1.5
-  environmentLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  pelvisOffSet: 0
-  pelvisUpAndDownSpeed: 0.28
-  feetToIKPositionSpeed: 0.5
-  leftFootAnimVariableName: LeftFootCurve
-  rightFootAnimVariableName: RightFootCurve
-  useProIKFeature: 0
-  showSolverDebug: 1
 --- !u!114 &2122780388
 MonoBehaviour:
   m_ObjectHideFlags: 0

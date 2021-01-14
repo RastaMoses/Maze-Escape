@@ -55,9 +55,16 @@ public class AnimationStateController : MonoBehaviour
     void ChangeVelocity(bool forwardPressed, bool backwardPressed, bool leftPressed, bool rightPressed, bool runPressed, float currentMaxVelocity)
     {
         //Walking forward
-        if ((forwardPressed || backwardPressed || leftPressed || rightPressed) && velocityZ < currentMaxVelocity && !backwardPressed)
+        if ((forwardPressed || backwardPressed || leftPressed || rightPressed) && velocityZ < currentMaxVelocity)
         {
             velocityZ += Time.deltaTime * accelerationForward;
+        }
+        
+        //runnning
+
+        if (runPressed && (forwardPressed || backwardPressed|| leftPressed|| rightPressed) && velocityZ < currentMaxVelocity && !animator.GetBool(isJumpingHash))
+        {
+            velocityZ += Time.deltaTime * sprintAcceleration;
         }
         
 
@@ -81,11 +88,11 @@ public class AnimationStateController : MonoBehaviour
 
             velocityZ = 0;
         }
-        
-     
+
+
 
         //lock stop runnning, when not run pressed, but still forward pressed
-        if (!runPressed && (forwardPressed || backwardPressed || leftPressed || rightPressed) && velocityZ > 0.5f)
+        if (!runPressed && (forwardPressed || backwardPressed || leftPressed || rightPressed) && velocityZ > 0.5f || animator.GetBool(isJumpingHash))
         {
             velocityZ -= Time.deltaTime * decceleration;
         }

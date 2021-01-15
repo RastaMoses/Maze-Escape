@@ -77,7 +77,6 @@ public class SFXControllerPlayer : MonoBehaviour
         
         currentFallVolume += fallVolumeIncreaseSpeed * Time.deltaTime;
         currentFallVolume = Mathf.Clamp(currentFallVolume, minFallVolume, maxFallVolume);
-        Debug.Log(currentFallVolume);
         audioSourceFalling.volume = currentFallVolume;
     }
 

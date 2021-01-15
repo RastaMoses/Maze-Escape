@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class SFXControllerPlayer : MonoBehaviour
 {
-    [SerializeField] AudioClip[] jumpSFXList;
+    
     
     [SerializeField] AudioSource audioSourceFootSteps;
     [SerializeField] CharacterController controller;
     [SerializeField] ThirdPersonMovement movement;
+    [Header("Jump")]
+    [SerializeField] AudioClip[] jumpSFXList;
+    [SerializeField] [Range(0,1)] float jumpSFXVolume;
+    [SerializeField] AudioClip[] jumpCrySFXList;
+    [SerializeField] [Range(0, 1)] float jumpCrySFXVolume;
     [Header("Falling")]
     [SerializeField] AudioClip fallingClip;
     [SerializeField] [Range(0, 1)] float minFallVolume = 0.1f;
@@ -39,8 +44,10 @@ public class SFXControllerPlayer : MonoBehaviour
     }
     public void PlayJumpSFX()
     {
-        int i = Random.Range(0, jumpSFXList.Length - 1);
-        audioSourcePlayer.PlayOneShot(jumpSFXList[i]);
+        int i = Random.Range(0, jumpCrySFXList.Length - 1);
+        audioSourcePlayer.PlayOneShot(jumpCrySFXList[i], jumpCrySFXVolume);
+        int e = Random.Range(0, jumpSFXList.Length - 1);
+        audioSourceFootSteps.PlayOneShot(jumpSFXList[e], jumpSFXVolume);
     }
     #region Falling
     

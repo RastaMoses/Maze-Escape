@@ -250,7 +250,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 105093574}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.682916, y: 16.85, z: -6.0248303}
+  m_LocalPosition: {x: 12.682916, y: 16.463001, z: -6.0248303}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 203450534}
@@ -355,7 +355,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 197934026}
-  m_LocalRotation: {x: 0.1347677, y: -0.000000008524705, z: 0.0000000011594323, w: 0.9908773}
+  m_LocalRotation: {x: 0.13476773, y: 1e-45, z: -0, w: 0.9908772}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -429,7 +429,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 203450532}
-  m_LocalRotation: {x: 0.17067233, y: 0.000000008476966, z: -0.0000000014683269, w: 0.98532784}
+  m_LocalRotation: {x: 0.17067234, y: -0.0000000084769605, z: 0.0000000014683265, w: 0.98532784}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -503,7 +503,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 300537086}
-  m_LocalRotation: {x: 0.15272148, y: 0.000000008502268, z: -0.0000000013138921, w: 0.98826927}
+  m_LocalRotation: {x: 0.15272151, y: -0.000000008502269, z: 0.0000000013138921, w: 0.98826927}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -800,8 +800,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 644542214}
-  m_LocalRotation: {x: 0.1527215, y: 0.000000017004536, z: -0.0000000026277842, w: 0.98826927}
-  m_LocalPosition: {x: 12.682916, y: 16.85, z: -6.0248303}
+  m_LocalRotation: {x: 0.15272151, y: -0.000000008502269, z: 0.0000000013138923, w: 0.98826927}
+  m_LocalPosition: {x: 12.682916, y: 16.463001, z: -6.0248303}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1486,7 +1486,7 @@ GameObject:
   - component: {fileID: 1949742283}
   m_Layer: 8
   m_Name: Terrain
-  m_TagString: Dirt
+  m_TagString: Metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -1659,6 +1659,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 24388fd7aea48bc4cadc63b025a2262d, type: 3}
     - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: jumpSFXVolume
+      value: 0.505
+      objectReference: {fileID: 0}
+    - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
       propertyPath: maxFallVolume
       value: 0.454
       objectReference: {fileID: 0}
@@ -1667,9 +1671,53 @@ PrefabInstance:
       value: 0.071
       objectReference: {fileID: 0}
     - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: jumpCrySFXVolume
+      value: 0.456
+      objectReference: {fileID: 0}
+    - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: jumpSFXList.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
       propertyPath: fallVolumeIncreaseSpeed
       value: 0.242
       objectReference: {fileID: 0}
+    - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: jumpCrySFXList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: jumpSFXList.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 51c456a0946f7ea4ea19f7fe18fb7ed6, type: 3}
+    - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: jumpSFXList.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: cf1d5ce5e7b538440843094008c5c866, type: 3}
+    - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: jumpSFXList.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: f3bace8a3586f6646a067a7324b6bb04, type: 3}
+    - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: jumpSFXList.Array.data[6]
+      value: 
+      objectReference: {fileID: 8300000, guid: e8972b726eacfe04a979fceebf4ecbbb, type: 3}
+    - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: jumpSFXList.Array.data[7]
+      value: 
+      objectReference: {fileID: 8300000, guid: 0de47defcc5ed77428cd29bd069096af, type: 3}
+    - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: jumpCrySFXList.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 1bad5845d6c8dd64fbd089bc1ea5f1ff, type: 3}
+    - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: jumpCrySFXList.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: d15603cfc8935f0438dcfb3a32dbd812, type: 3}
+    - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: jumpCrySFXList.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 403a7087fe71d4f4bb4d8f054d0dc472, type: 3}
     - target: {fileID: 2363537357530202175, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
       propertyPath: cam
       value: 
@@ -1688,7 +1736,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2830021747900079820, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11.85
+      value: 11.463
       objectReference: {fileID: 0}
     - target: {fileID: 2830021747900079820, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
       propertyPath: m_LocalPosition.z

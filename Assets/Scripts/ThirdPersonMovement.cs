@@ -17,6 +17,7 @@ public class ThirdPersonMovement : MonoBehaviour
     public float gravity = -9.81f;
     public float jumpHeight = 3f;
     [SerializeField] float jumpDelay = 0.5f;
+    [SerializeField] [Range(-10, 0)] float minFallVelocity; //Once this velocity is hit, isFall = true
 
     public Transform groundCheck;
     public float groundDistance = 0.1f;
@@ -29,10 +30,15 @@ public class ThirdPersonMovement : MonoBehaviour
     public float jumpCooldown = 0.5f;
 
     //States
+
+    public bool isFalling;
     public bool isMoving = false;
     public bool isRunning = false;
 
     float moveSpeed;
+    //For Fall velocity calculation
+    Vector3 playerVel; 
+    Vector3 lastPos;
     /*
     Vector3 rightFootPosition, leftFootPosition, leftFootIKPosition, rightFootIKPosition;
     Quaternion leftFootIKRotation, rightFootIKRotation;
@@ -58,15 +64,32 @@ public class ThirdPersonMovement : MonoBehaviour
         isJumping = false;
         Cursor.lockState = CursorLockMode.Locked;
         moveSpeed = walkSpeed;
+        lastPos = transform.position; // initialize lastPos
     }
 
     // Update is called once per frame
     void Update()
     {
+        FallingManager();
         PlayerMovement();
     }
 
-
+    void FallingManager()
+    {
+        
+        var moved = transform.position - lastPos; // update lastPos: 
+        lastPos = transform.position; // calculate the velocity: 
+        playerVel = moved / Time.deltaTime; 
+        float yVelocity = playerVel.y;
+        if (yVelocity < minFallVelocity)
+        {
+            isFalling = true;
+        }
+        else
+        {
+            isFalling = false;
+        }
+    }
     void PlayerMovement()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);

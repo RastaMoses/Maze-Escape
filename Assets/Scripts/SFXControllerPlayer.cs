@@ -5,16 +5,26 @@ using UnityEngine;
 public class SFXControllerPlayer : MonoBehaviour
 {
     [SerializeField] AudioClip[] jumpSFXList;
+    
     [SerializeField] AudioSource audioSourceFootSteps;
     [SerializeField] CharacterController controller;
+    [SerializeField] ThirdPersonMovement movement;
+    [Header("Falling")]
+    [SerializeField] AudioClip fallingClip;
+    [SerializeField] [Range(0, 1)] float minFallVolume = 0.1f;
+    [SerializeField] [Range(0, 1)] float maxFallVolume = 0.7f;
+    [SerializeField] [Range(0,2)]float fallVolumeIncreaseSpeed = 1.5f;
+    [SerializeField] AudioSource audioSourceFalling;
     [Header("Footsteps")]
     [SerializeField] float walkStepVolume = 0.1f;
     [SerializeField] float runStepVolume = 0.3f;
     [SerializeField] AudioClip[] concrete, wood, dirt, metal, glass, sand, snow, stone, grass;
-    
+
 
 
     //States
+    bool alreadyFalling = false;
+    float currentFallVolume;
     //Cached comp
     AudioSource audioSourcePlayer;
     private void Awake()
@@ -22,12 +32,60 @@ public class SFXControllerPlayer : MonoBehaviour
         audioSourcePlayer = GetComponent<AudioSource>();
         
     }
-    
+
+    private void Update()
+    {
+        CheckFalling();
+    }
     public void PlayJumpSFX()
     {
         int i = Random.Range(0, jumpSFXList.Length - 1);
         audioSourcePlayer.PlayOneShot(jumpSFXList[i]);
     }
+    #region Falling
+    
+    void CheckFalling()
+    {
+        
+        if (movement.isFalling)
+        {
+            if (alreadyFalling)
+            {
+                IncreaseFallVolume();
+                return;
+            }
+            else
+            {
+                alreadyFalling = true;
+                audioSourceFalling.volume = minFallVolume;
+                audioSourceFalling.clip = fallingClip;
+                audioSourceFalling.Play();
+
+                currentFallVolume = minFallVolume;
+            }
+
+        }
+        else
+        {
+            audioSourceFalling.Stop();
+            alreadyFalling = false;
+        }
+    }
+
+    void IncreaseFallVolume()
+    {
+        
+        currentFallVolume += fallVolumeIncreaseSpeed * Time.deltaTime;
+        currentFallVolume = Mathf.Clamp(currentFallVolume, minFallVolume, maxFallVolume);
+        Debug.Log(currentFallVolume);
+        audioSourceFalling.volume = currentFallVolume;
+    }
+
+
+    #endregion
+
+
+
 
     #region Footsteps
     public void FootStepWalk()

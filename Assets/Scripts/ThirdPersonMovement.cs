@@ -4,29 +4,45 @@ using UnityEngine;
 
 public class ThirdPersonMovement : MonoBehaviour
 {
-    public CharacterController controller;
-    public Transform cam;
-    Animator anim;
+    [Header("Camera")]
+    [SerializeField] Transform cam;
 
-    public float walkSpeed = 8f;
-    public float sprintSpeed = 12f;
+    [Header("Movement")]
+    [SerializeField] float walkSpeed = 5f;
+    [SerializeField] float sprintSpeed = 12f;
     [SerializeField] float strifeSpeed = 6f;
-    public float turnSmoothTime = 0.1f;
-    float turnSmoothVelocity;
+    [SerializeField] float turnSmoothTime = 0.1f;
+    [SerializeField] float gravity = -9.81f;
 
-    public float gravity = -9.81f;
-    public float jumpHeight = 3f;
+    [Header("Jump")]
+    [SerializeField] float jumpCooldown = 0.5f;
+    [SerializeField] float jumpHeight = 3f;
     [SerializeField] float jumpDelay = 0.5f;
+    [SerializeField] [Range(-10, 0)] float minFallVelocity; //Once this velocity is hit, isFall becomes true
 
-    public Transform groundCheck;
-    public float groundDistance = 0.1f;
-    public LayerMask groundMask;
+    [Header("Ground Check")]
+    [SerializeField] Transform groundCheck;
+    [SerializeField] float groundDistance = 0.1f;
+    [SerializeField] LayerMask groundMask;
 
-    Vector3 velocity;
+    
+    //States
+    static bool canJump = true;
     bool isJumping;
     bool isGrounded;
-    static bool canJump = true;
-    public float jumpCooldown = 0.5f;
+    bool isFalling;
+    bool isMoving = false;
+    bool isRunning = false;
+    float turnSmoothVelocity;
+    float moveSpeed;
+    Vector3 velocity;
+    //For Fall velocity calculation
+    Vector3 playerVel; 
+    Vector3 lastPos;
+
+
+    //Cached Component Reference
+    CharacterController controller;
 
 
     /*
@@ -50,18 +66,38 @@ public class ThirdPersonMovement : MonoBehaviour
 
     private void Start()
     {
-        anim = GetComponent<Animator>();
+        controller = GetComponent<CharacterController>();
         isJumping = false;
         Cursor.lockState = CursorLockMode.Locked;
+        moveSpeed = walkSpeed;
+        lastPos = transform.position; // initialize lastPos
     }
 
     // Update is called once per frame
     void Update()
     {
+        FallingManager();
         PlayerMovement();
     }
 
+    void FallingManager()
+    {
+        
+        var moved = transform.position - lastPos; // update lastPos: 
+        lastPos = transform.position; // calculate the velocity: 
+        playerVel = moved / Time.deltaTime; 
+        float yVelocity = playerVel.y;
+        if (yVelocity < minFallVelocity)
+        {
+            isFalling = true;
+        }
+        else
+        {
+            isFalling = false;
+        }
+    }
 
+    #region Movement
     void PlayerMovement()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
@@ -87,25 +123,46 @@ public class ThirdPersonMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded)
         {
-            walkSpeed = sprintSpeed;
+            moveSpeed = sprintSpeed;
+            
+
         }
         
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
-            walkSpeed = 4f;
+            moveSpeed = walkSpeed;
+            
         }
 
-
+        
 
         if (direction.magnitude >= 0.1f)
         {
+            //define if walking or running
+            if (moveSpeed == sprintSpeed)
+            {
+                isRunning = true;
+                
+            }
+            else
+            {
+                isRunning = false;
+            }
+            isMoving = true;
 
+            //move caharacter
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(moveDir.normalized * walkSpeed * Time.deltaTime);
+            controller.Move(moveDir.normalized * moveSpeed * Time.deltaTime);
+            
 
+        }
+        else //if not moving define ismoving false
+        {
+            isRunning = false;
+            isMoving = false;
         }
 
         if (Input.GetButtonDown("Jump") && isGrounded && canJump)
@@ -135,19 +192,23 @@ public class ThirdPersonMovement : MonoBehaviour
         canJump = true;
         
     }
+    #endregion
 
+    #region GetFunctions
 
-
-
-
-
-
-
-
-
-
-
-
+    public bool GetIsFalling()
+    {
+        return isFalling;
+    }
+    public bool GetIsMoving()
+    {
+        return isMoving;
+    }
+    public bool GetIsRunning()
+    {
+        return isRunning;
+    }
+    #endregion
 
     /*
     #region FeetGrounding
@@ -287,6 +348,6 @@ public class ThirdPersonMovement : MonoBehaviour
     }
     #endregion
     */
-    
+
 }
 

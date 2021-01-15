@@ -16,7 +16,6 @@ public class AnimationStateController : MonoBehaviour
     //States
     bool idle;
     float idleTime;
-
     float velocityX; 
     float velocityZ;
     float currentMaxVelocity;

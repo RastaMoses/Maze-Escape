@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ThirdPersonMovement : MonoBehaviour
-{
+{ 
+    //Serialized References
     [Header("Camera")]
     [SerializeField] Transform cam;
 
@@ -67,10 +68,12 @@ public class ThirdPersonMovement : MonoBehaviour
     private void Start()
     {
         controller = GetComponent<CharacterController>();
+
+
         isJumping = false;
         Cursor.lockState = CursorLockMode.Locked;
         moveSpeed = walkSpeed;
-        lastPos = transform.position; // initialize lastPos
+        lastPos = transform.position; // initialize lastPos for velocity calculations
     }
 
     // Update is called once per frame

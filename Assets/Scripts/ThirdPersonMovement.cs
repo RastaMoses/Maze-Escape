@@ -107,9 +107,14 @@ public class ThirdPersonMovement : MonoBehaviour
             
             if (isJumping)
             {
+                //Landing Event
                 GetComponent<AnimationStateController>().Land();
                 isJumping = false;
                 StartCoroutine(CoolDownFunction());
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    moveSpeed = sprintSpeed;
+                }
             }
 
 

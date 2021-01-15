@@ -8,7 +8,7 @@ public class ThirdPersonMovement : MonoBehaviour
     public Transform cam;
     Animator anim;
 
-    public float walkSpeed = 8f;
+    public float walkSpeed = 5f;
     public float sprintSpeed = 12f;
     [SerializeField] float strifeSpeed = 6f;
     public float turnSmoothTime = 0.1f;
@@ -28,7 +28,11 @@ public class ThirdPersonMovement : MonoBehaviour
     static bool canJump = true;
     public float jumpCooldown = 0.5f;
 
+    //States
+    public bool isMoving = false;
+    public bool isRunning = false;
 
+    float moveSpeed;
     /*
     Vector3 rightFootPosition, leftFootPosition, leftFootIKPosition, rightFootIKPosition;
     Quaternion leftFootIKRotation, rightFootIKRotation;
@@ -53,6 +57,7 @@ public class ThirdPersonMovement : MonoBehaviour
         anim = GetComponent<Animator>();
         isJumping = false;
         Cursor.lockState = CursorLockMode.Locked;
+        moveSpeed = walkSpeed;
     }
 
     // Update is called once per frame
@@ -87,25 +92,46 @@ public class ThirdPersonMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded)
         {
-            walkSpeed = sprintSpeed;
+            moveSpeed = sprintSpeed;
+            
+
         }
         
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
-            walkSpeed = 4f;
+            moveSpeed = walkSpeed;
+            
         }
 
-
+        
 
         if (direction.magnitude >= 0.1f)
         {
+            //define if walking or running
+            if (moveSpeed == sprintSpeed)
+            {
+                isRunning = true;
+                
+            }
+            else
+            {
+                isRunning = false;
+            }
+            isMoving = true;
 
+            //move caharacter
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(moveDir.normalized * walkSpeed * Time.deltaTime);
+            controller.Move(moveDir.normalized * moveSpeed * Time.deltaTime);
+            
 
+        }
+        else //if not moving define ismoving false
+        {
+            isRunning = false;
+            isMoving = false;
         }
 
         if (Input.GetButtonDown("Jump") && isGrounded && canJump)

@@ -5,6 +5,15 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - Concrete
+  - Dirt
+  - Stone
+  - Glass
+  - Grass
+  - Metal
+  - Sand
+  - Snow
+  - Wood
   layers:
   - Default
   - TransparentFX

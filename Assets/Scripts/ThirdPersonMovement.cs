@@ -4,41 +4,47 @@ using UnityEngine;
 
 public class ThirdPersonMovement : MonoBehaviour
 {
-    public CharacterController controller;
-    public Transform cam;
-    Animator anim;
+    [Header("Camera")]
+    [SerializeField] Transform cam;
 
-    public float walkSpeed = 5f;
-    public float sprintSpeed = 12f;
+    [Header("Movement")]
+    [SerializeField] float walkSpeed = 5f;
+    [SerializeField] float sprintSpeed = 12f;
     [SerializeField] float strifeSpeed = 6f;
-    public float turnSmoothTime = 0.1f;
-    float turnSmoothVelocity;
+    [SerializeField] float turnSmoothTime = 0.1f;
+    [SerializeField] float gravity = -9.81f;
 
-    public float gravity = -9.81f;
-    public float jumpHeight = 3f;
+    [Header("Jump")]
+    [SerializeField] float jumpCooldown = 0.5f;
+    [SerializeField] float jumpHeight = 3f;
     [SerializeField] float jumpDelay = 0.5f;
-    [SerializeField] [Range(-10, 0)] float minFallVelocity; //Once this velocity is hit, isFall = true
+    [SerializeField] [Range(-10, 0)] float minFallVelocity; //Once this velocity is hit, isFall becomes true
 
-    public Transform groundCheck;
-    public float groundDistance = 0.1f;
-    public LayerMask groundMask;
+    [Header("Ground Check")]
+    [SerializeField] Transform groundCheck;
+    [SerializeField] float groundDistance = 0.1f;
+    [SerializeField] LayerMask groundMask;
 
-    Vector3 velocity;
+    
+    //States
+    static bool canJump = true;
     bool isJumping;
     bool isGrounded;
-    static bool canJump = true;
-    public float jumpCooldown = 0.5f;
-
-    //States
-
-    public bool isFalling;
-    public bool isMoving = false;
-    public bool isRunning = false;
-
+    bool isFalling;
+    bool isMoving = false;
+    bool isRunning = false;
+    float turnSmoothVelocity;
     float moveSpeed;
+    Vector3 velocity;
     //For Fall velocity calculation
     Vector3 playerVel; 
     Vector3 lastPos;
+
+
+    //Cached Component Reference
+    CharacterController controller;
+
+
     /*
     Vector3 rightFootPosition, leftFootPosition, leftFootIKPosition, rightFootIKPosition;
     Quaternion leftFootIKRotation, rightFootIKRotation;
@@ -60,7 +66,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
     private void Start()
     {
-        anim = GetComponent<Animator>();
+        controller = GetComponent<CharacterController>();
         isJumping = false;
         Cursor.lockState = CursorLockMode.Locked;
         moveSpeed = walkSpeed;
@@ -90,6 +96,8 @@ public class ThirdPersonMovement : MonoBehaviour
             isFalling = false;
         }
     }
+
+    #region Movement
     void PlayerMovement()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
@@ -184,19 +192,23 @@ public class ThirdPersonMovement : MonoBehaviour
         canJump = true;
         
     }
+    #endregion
 
+    #region GetFunctions
 
-
-
-
-
-
-
-
-
-
-
-
+    public bool GetIsFalling()
+    {
+        return isFalling;
+    }
+    public bool GetIsMoving()
+    {
+        return isMoving;
+    }
+    public bool GetIsRunning()
+    {
+        return isRunning;
+    }
+    #endregion
 
     /*
     #region FeetGrounding
@@ -336,6 +348,6 @@ public class ThirdPersonMovement : MonoBehaviour
     }
     #endregion
     */
-    
+
 }
 

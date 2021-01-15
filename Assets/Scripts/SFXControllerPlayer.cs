@@ -47,7 +47,7 @@ public class SFXControllerPlayer : MonoBehaviour
     void CheckFalling()
     {
         
-        if (movement.isFalling)
+        if (movement.GetIsFalling())
         {
             if (alreadyFalling)
             {

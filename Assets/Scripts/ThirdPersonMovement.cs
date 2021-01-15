@@ -186,7 +186,7 @@ public class ThirdPersonMovement : MonoBehaviour
         velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         isJumping = true;
 
-       
+    
     }
      
     IEnumerator CoolDownFunction()

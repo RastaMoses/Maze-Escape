@@ -373,7 +373,7 @@ MonoBehaviour:
   jumpHeight: 3
   jumpDelay: 0.1
   minFallVelocity: 0
-  groundCheck: {fileID: 913905004}
+  groundCheck: {fileID: 0}
   groundDistance: 0.1
   groundMask:
     serializedVersion: 2
@@ -1656,7 +1656,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a846dd54d65e99342b24aed8b854668e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a846dd54d65e99342b24aed8b854668e, type: 3}
       propertyPath: m_TagString
@@ -2489,36 +2489,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &913905003
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 913905004}
-  m_Layer: 3
-  m_Name: groundCheck
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &913905004
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 913905003}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.052, y: -0.042, z: -0.009}
-  m_LocalScale: {x: 0.5612617, y: 1.1225234, z: 0.5612617}
-  m_Children: []
-  m_Father: {fileID: 815906467}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1131308100
 GameObject:
   m_ObjectHideFlags: 0
@@ -2634,7 +2604,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1386473522
 Transform:
   m_ObjectHideFlags: 0
@@ -2759,7 +2729,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!20 &1424016001
 Camera:
   m_ObjectHideFlags: 0
@@ -3199,6 +3169,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2363537357530202169, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: m_Height
+      value: 1.3
+      objectReference: {fileID: 0}
     - target: {fileID: 2363537357530202175, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
       propertyPath: cam
       value: 
@@ -3210,7 +3184,7 @@ PrefabInstance:
     - target: {fileID: 2363537357530202175, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
       propertyPath: groundCheck
       value: 
-      objectReference: {fileID: 913905004}
+      objectReference: {fileID: 815906467}
     - target: {fileID: 2363537357572060958, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -3238,6 +3212,10 @@ PrefabInstance:
     - target: {fileID: 2830021747900079820, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2830021747900079820, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.78
       objectReference: {fileID: 0}
     - target: {fileID: 2830021747900079820, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
       propertyPath: m_LocalPosition.x

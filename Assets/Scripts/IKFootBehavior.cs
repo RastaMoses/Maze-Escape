@@ -134,7 +134,7 @@ public class IKFootBehavior : MonoBehaviour
             if (allGroundSphereCastHits[i] == true)
             {
                 yOffset = yOffsetFoot;
-                if (allFootTransforms[i].position.y < allTargetTransforms[i].position.y - 0.1f) //if error, change this to smaller!!!!!!!!!!!
+                if (allFootTransforms[i].position.y < allTargetTransforms[i].position.y - 0.01f) //if error, change this to smaller!!!!!!!!!!!
                 {
                     yOffset += allTargetTransforms[i].position.y - allFootTransforms[i].position.y;
                 }

@@ -155,8 +155,8 @@ public class ThirdPersonMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && isGrounded && canJump)
         {
-            GetComponent<AnimationStateController>().Jump();
-            StartCoroutine(Jump());        
+            StartCoroutine(Jump());
+            GetComponent<AnimationStateController>().Jump();        
         }
 
         velocity.y += gravity * Time.deltaTime;
@@ -168,7 +168,7 @@ public class ThirdPersonMovement : MonoBehaviour
         yield return new WaitForSeconds(jumpDelay);
         velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         isJumping = true;
-
+       
     
     }
      

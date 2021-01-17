@@ -2404,8 +2404,8 @@ MonoBehaviour:
   footRigR: {fileID: 1392097282}
   footRigL: {fileID: 1945569305}
   animator: {fileID: 2363537358089448541}
-  maxHitDistance: 0.6
-  addedHeight: 0.4
+  maxHitDistance: 1
+  addedHeight: 0.6
   yOffsetFoot: 0.09
 --- !u!95 &2363537358089448541 stripped
 Animator:

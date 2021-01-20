@@ -13,10 +13,16 @@ public class Health : MonoBehaviour
     [SerializeField] float fireDamage = 10;
     [SerializeField] float fireDamageInterval;
 
-
+    [Header("Electricity")]
+    [SerializeField] float electricDamage = 10;
+    [SerializeField] bool stun;
+    [SerializeField] float stunTime = 10f;
     //States
-    bool onFire;
-    [SerializeField] bool onFirecoroutineActive; //for Debug serialized
+    bool onFire = false;
+    bool electrified = false;
+    
+    [Header("Debug/Ignore")]
+    [SerializeField] bool onFirecoroutineActive = false; //for Debug serialized
 
     [SerializeField] float currentHP; //Serialized for Debug
 
@@ -37,7 +43,6 @@ public class Health : MonoBehaviour
 
         //save coroutines in variables
         onFireCoroutine = OnFire();
-        onFirecoroutineActive = false;
         fireColliderList = new List<Collider>();
     }
 
@@ -122,9 +127,32 @@ public class Health : MonoBehaviour
 
     #endregion
 
+    #region Electricity
     public void SetElectric()
     {
+        if (!electrified)
+        {
+            electrified = true;
+            TakeDamage(electricDamage);
+            if (stun)
+            {
+                StartCoroutine(ElectricStun());
+            }
+        }
+        
+    }
 
+    IEnumerator ElectricStun()
+    {
+
+        yield return new WaitForSeconds(stunTime);
+    }
+    #endregion
+
+    public void GetStatus(out bool isElectrified, out bool isOnFire)
+    {
+        isElectrified = electrified;
+        isOnFire = onFire;
     }
 
     //Testing

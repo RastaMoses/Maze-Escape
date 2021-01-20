@@ -155,6 +155,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && isGrounded && canJump)
         {
+            Debug.Log("JUMP!");
             StartCoroutine(Jump());
             GetComponent<AnimationStateController>().Jump();        
         }

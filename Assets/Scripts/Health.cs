@@ -46,6 +46,22 @@ public class Health : MonoBehaviour
         CheckHP();
     }
 
+    public void TakeDamage(float damage)
+    {
+        currentHP -= damage;
+        DamagePopUp(damage); //Test
+    }
+
+    void CheckHP()
+    {
+        //Checks if dead
+        if (currentHP <= 0)
+        {
+            Debug.Log(gameObject.name + (" Dead"));
+        }
+    }
+
+    #region Fire
     public void SetOnFire()
     {
         //Sets onfire, if coroutine not already active
@@ -81,20 +97,9 @@ public class Health : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage)
-    {
-        currentHP -= damage;
-        DamagePopUp(damage); //Test
-    }
+    
 
-    void CheckHP()
-    {
-        //Checks if dead
-        if (currentHP <= 0)
-        {
-            Debug.Log(gameObject.name + (" Dead"));
-        }
-    }
+    
 
     public void AddToFireList(Collider fire)
     {
@@ -115,9 +120,12 @@ public class Health : MonoBehaviour
         
     }
 
+    #endregion
 
+    public void SetElectric()
+    {
 
-
+    }
 
     //Testing
     void DamagePopUp(float damage)

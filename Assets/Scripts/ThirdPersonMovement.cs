@@ -19,7 +19,12 @@ public class ThirdPersonMovement : MonoBehaviour
     [SerializeField] float jumpCooldown = 0.5f;
     [SerializeField] float jumpHeight = 3f;
     [SerializeField] float jumpDelay = 0.5f;
+    [Header("Fall")]
     [SerializeField] [Range(-10, 0)] float minFallVelocity; //Once this velocity is hit, isFall becomes true
+    [SerializeField] [Range(-30, 0)] float minFallDamageVelocity = -10f;
+    [SerializeField] float minFallDamage = 10f;
+    [SerializeField] float fallDamageMultiplier = 0.5f; //Damage increase per velocity increase
+    [SerializeField] int groundLayerNumber = 8;
 
     [Header("Ground Check")]
     [SerializeField] Transform groundCheck;
@@ -48,8 +53,6 @@ public class ThirdPersonMovement : MonoBehaviour
     private void Start()
     {
         controller = GetComponent<CharacterController>();
-
-
         isJumping = false;
         Cursor.lockState = CursorLockMode.Locked;
         moveSpeed = walkSpeed;
@@ -62,10 +65,9 @@ public class ThirdPersonMovement : MonoBehaviour
         FallingManager();
         PlayerMovement();
     }
-
+    #region Falling
     void FallingManager()
     {
-        
         var moved = transform.position - lastPos; // update lastPos: 
         lastPos = transform.position; // calculate the velocity: 
         playerVel = moved / Time.deltaTime; 
@@ -79,6 +81,27 @@ public class ThirdPersonMovement : MonoBehaviour
             isFalling = false;
         }
     }
+
+    //Fall Damage
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.layer == groundLayerNumber) //Check if collision is with ground
+        {
+            if (isFalling && playerVel.y <= minFallDamageVelocity) //Check if player is falling and has min fallvelocity
+            {
+
+                if(hit.point.y < transform.position.y) //Check if impact point is beneath player
+                {
+                    Debug.Log("Fall Damage");
+                    GetComponent<Health>().TakeDamage(minFallDamage + (-playerVel.y * fallDamageMultiplier));
+                }
+            }
+        }
+    }
+
+
+    #endregion
 
     #region Movement
     void PlayerMovement()
@@ -155,7 +178,6 @@ public class ThirdPersonMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && isGrounded && canJump)
         {
-            Debug.Log("JUMP!");
             StartCoroutine(Jump());
             GetComponent<AnimationStateController>().Jump();        
         }
@@ -196,6 +218,10 @@ public class ThirdPersonMovement : MonoBehaviour
     public bool GetIsRunning()
     {
         return isRunning;
+    }
+    public bool GetIsJumping()
+    {
+        return isJumping;
     }
     #endregion
 

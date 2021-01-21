@@ -181,4 +181,15 @@ public class AnimationStateController : MonoBehaviour
     {
         animator.SetBool(isJumpingHash, false);
     }
+
+    public void Fall()
+    {
+        
+        animator.SetBool("isFalling", true);
+    }
+    public void StopFall()
+    {
+        animator.SetBool("isFalling", false);
+    }
+
 }

@@ -36,11 +36,12 @@ public class ThirdPersonMovement : MonoBehaviour
     static bool canJump = true;
     bool isJumping;
     bool isGrounded;
-    bool isFalling;
+    public bool isFalling; //Serialized for Debug
     bool isMoving = false;
     bool isRunning = false;
     float turnSmoothVelocity;
     float moveSpeed;
+     public float yVelocity; //Serialized for Debug
     Vector3 velocity;
     //For Fall velocity calculation
     Vector3 playerVel; 
@@ -49,9 +50,11 @@ public class ThirdPersonMovement : MonoBehaviour
 
     //Cached Component Reference
     CharacterController controller;
+    AnimationStateController animationStateController;
 
     private void Start()
     {
+        animationStateController = GetComponent<AnimationStateController>();
         controller = GetComponent<CharacterController>();
         isJumping = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -71,14 +74,22 @@ public class ThirdPersonMovement : MonoBehaviour
         var moved = transform.position - lastPos; // update lastPos: 
         lastPos = transform.position; // calculate the velocity: 
         playerVel = moved / Time.deltaTime; 
-        float yVelocity = playerVel.y;
+        yVelocity = velocity.y;
         if (yVelocity < minFallVelocity)
         {
             isFalling = true;
+            if (!isJumping)
+            {
+                animationStateController.Fall();
+            }
         }
         else
         {
             isFalling = false;
+            if (!isJumping)
+            {
+                animationStateController.StopFall();
+            }
         }
     }
 
@@ -88,7 +99,7 @@ public class ThirdPersonMovement : MonoBehaviour
     {
         if (hit.gameObject.layer == groundLayerNumber) //Check if collision is with ground
         {
-            if (isFalling && playerVel.y <= minFallDamageVelocity) //Check if player is falling and has min fallvelocity
+            if (isFalling && yVelocity <= minFallDamageVelocity) //Check if player is falling and has min fallvelocity
             {
 
                 if(hit.point.y < transform.position.y) //Check if impact point is beneath player

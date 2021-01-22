@@ -56,6 +56,7 @@ public class AnimationStateController : MonoBehaviour
         if ((forwardPressed || backwardPressed || leftPressed || rightPressed) && velocityZ < currentMaxVelocity)
         {
             velocityZ += Time.deltaTime * accelerationForward;
+            
         }
         
         //runnning
@@ -173,6 +174,7 @@ public class AnimationStateController : MonoBehaviour
 
     public void Jump()
     {
+        
         animator.SetBool(isJumpingHash, true);
         sfx.PlayJumpSFX();
     }

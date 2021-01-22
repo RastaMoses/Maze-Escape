@@ -7,6 +7,7 @@ public class SFXControllerPlayer : MonoBehaviour
     
     
     [SerializeField] AudioSource audioSourceFootSteps;
+    [SerializeField] AudioSource audioSourceBreath;
     [SerializeField] CharacterController controller;
     [SerializeField] ThirdPersonMovement movement;
     [Header("Jump")]
@@ -29,6 +30,14 @@ public class SFXControllerPlayer : MonoBehaviour
     [SerializeField] [Range(0, 1)] float landrollSFXVolume;
     [SerializeField] AudioClip[] landrollCrySFXList;
     [SerializeField] [Range(0, 1)] float landrollCrySFXVolume;
+    [Header("Breath")]
+    [SerializeField] AudioClip idleBreathSFX;
+    [SerializeField] [Range(0, 1)] float idleBreathVolume;
+    [SerializeField] AudioClip runBreathSFX;
+    [SerializeField] [Range(0, 1)] float runBreathVolume;
+    [SerializeField] float timeRunningUntilBreath = 3f;
+    [SerializeField] float runVolumeIncrease = 1.5f;
+    [SerializeField] float runVolumeDecrease = 2f;
     [Header("Footsteps")]
     [SerializeField] float walkStepVolume = 0.1f;
     [SerializeField] float runStepVolume = 0.3f;
@@ -37,8 +46,13 @@ public class SFXControllerPlayer : MonoBehaviour
 
 
     //States
+    Coroutine decRunBreathCoroutine;
+    Coroutine incRunBreathCoroutine;
+    
+    bool running = false;
     bool alreadyFalling = false;
     float currentFallVolume;
+    float currentRunVolume = 0;
     //Cached comp
     AudioSource audioSourcePlayer;
     private void Awake()
@@ -50,7 +64,89 @@ public class SFXControllerPlayer : MonoBehaviour
     private void Update()
     {
         CheckFalling();
+        
     }
+
+    #region Running
+
+    public void StopRunningSFX()
+    {
+        if (running)
+        {
+            if (incRunBreathCoroutine != null)
+            {
+                StopCoroutine(incRunBreathCoroutine);
+            }
+            decRunBreathCoroutine = StartCoroutine(DecreaseRunningBreathVolume());
+            running = false;
+        }
+    }
+
+    public void RunningBreathSFX()
+    {
+        if (!running)
+        {
+            audioSourceBreath.volume = currentRunVolume;
+            if (audioSourceBreath.volume == 0)
+            {
+                StartCoroutine(DelayBeforeVolumeIncrease());
+            }
+            if (decRunBreathCoroutine != null)
+            {
+                StopCoroutine(decRunBreathCoroutine);
+            }
+            PlayRunningBreath();
+            running = true;
+        }
+
+    }
+    void PlayRunningBreath()
+    {
+        audioSourceBreath.clip = runBreathSFX;
+        audioSourceBreath.Play();
+        if (audioSourceBreath.volume != 0)
+        {
+            incRunBreathCoroutine = StartCoroutine(IncreaseRunningBreathVolume());
+        }
+    }
+    
+    IEnumerator DelayBeforeVolumeIncrease()
+    {
+        
+        yield return new WaitForSeconds(timeRunningUntilBreath); //Time to run until breath volume increases
+        incRunBreathCoroutine = StartCoroutine(IncreaseRunningBreathVolume());
+    }
+
+    IEnumerator IncreaseRunningBreathVolume()
+    {
+        while (audioSourceBreath.volume < runBreathVolume)
+        {
+            currentRunVolume += runVolumeIncrease * Time.deltaTime;
+            currentRunVolume = Mathf.Clamp(currentRunVolume, 0, runBreathVolume);
+            audioSourceBreath.volume = currentRunVolume;
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    //Slowly decreases volume after stop running
+    IEnumerator DecreaseRunningBreathVolume()
+    {
+        while (audioSourceBreath.volume > 0)
+        {
+            currentRunVolume -= runVolumeDecrease * Time.deltaTime;
+            currentRunVolume = Mathf.Clamp(currentRunVolume, 0, runBreathVolume);
+            audioSourceBreath.volume = currentRunVolume;
+            yield return new WaitForEndOfFrame();
+        }
+        currentRunVolume = 0;
+        audioSourceBreath.volume = 0;
+        audioSourceBreath.Stop();
+        yield return null;
+    }
+
+    #endregion
+
+    #region Landing
     public void PlayLandingSFX()
     {
         
@@ -123,8 +219,10 @@ public class SFXControllerPlayer : MonoBehaviour
             Debug.Log("No SFX in jumpSFXList");
         }
     }
+    #endregion
+
     #region Falling
-    
+
     void CheckFalling()
     {
         
@@ -163,9 +261,6 @@ public class SFXControllerPlayer : MonoBehaviour
 
 
     #endregion
-
-
-
 
     #region Footsteps
     public void FootStepWalk()

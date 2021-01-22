@@ -20,6 +20,15 @@ public class SFXControllerPlayer : MonoBehaviour
     [SerializeField] [Range(0, 1)] float maxFallVolume = 0.7f;
     [SerializeField] [Range(0,2)]float fallVolumeIncreaseSpeed = 1.5f;
     [SerializeField] AudioSource audioSourceFalling;
+    [Header("Landing")]
+    [SerializeField] AudioClip[] landingSFXList;
+    [SerializeField] [Range(0, 1)] float landingSFXVolume;
+    [SerializeField] AudioClip[] landingCrySFXList;
+    [SerializeField] [Range(0, 1)] float landingCrySFXVolume;
+    [SerializeField] AudioClip[] landrollSFXList;
+    [SerializeField] [Range(0, 1)] float landrollSFXVolume;
+    [SerializeField] AudioClip[] landrollCrySFXList;
+    [SerializeField] [Range(0, 1)] float landrollCrySFXVolume;
     [Header("Footsteps")]
     [SerializeField] float walkStepVolume = 0.1f;
     [SerializeField] float runStepVolume = 0.3f;
@@ -42,12 +51,77 @@ public class SFXControllerPlayer : MonoBehaviour
     {
         CheckFalling();
     }
+    public void PlayLandingSFX()
+    {
+        
+        if (landingCrySFXList.Length > 0)
+        {
+            int i = Random.Range(0, landingCrySFXList.Length - 1);
+            audioSourcePlayer.PlayOneShot(landingCrySFXList[i], landingCrySFXVolume);
+        }
+        else
+        {
+            Debug.Log("No SFX in landingCrySFXList");
+        }
+        
+        if (landingSFXList.Length > 0)
+        {
+            int e = Random.Range(0, landingSFXList.Length - 1);
+            audioSourceFootSteps.PlayOneShot(landingSFXList[e], landingSFXVolume);
+        }
+        else
+        {
+            Debug.Log("No SFX in landingSFXList");
+        }
+        
+        
+    }
+
+    public void PlayLandrollSFX()
+    {
+        
+        if (landrollCrySFXList.Length > 0)
+        {
+            int i = Random.Range(0, landrollCrySFXList.Length - 1);
+            audioSourcePlayer.PlayOneShot(landrollCrySFXList[i], landrollCrySFXVolume);
+        }
+        else
+        {
+            Debug.Log("No SFX in landrollCrySFXList");
+        }
+        
+        if (landrollSFXList.Length > 0)
+        {
+            int e = Random.Range(0, landrollSFXList.Length - 1);
+            audioSourceFootSteps.PlayOneShot(landrollSFXList[e], landrollSFXVolume);
+        }
+        else
+        {
+            Debug.Log("No SFX in landrollSFXList");
+        }
+    }
     public void PlayJumpSFX()
     {
-        int i = Random.Range(0, jumpCrySFXList.Length - 1);
-        audioSourcePlayer.PlayOneShot(jumpCrySFXList[i], jumpCrySFXVolume);
-        int e = Random.Range(0, jumpSFXList.Length - 1);
-        audioSourceFootSteps.PlayOneShot(jumpSFXList[e], jumpSFXVolume);
+        if (jumpCrySFXList.Length > 0)
+        {
+            int i = Random.Range(0, jumpCrySFXList.Length - 1);
+            audioSourcePlayer.PlayOneShot(jumpCrySFXList[i], jumpCrySFXVolume);
+        }
+        else
+        {
+            Debug.Log("No SFX in jumpCrySFXList");
+        }
+        
+        
+        if (jumpSFXList.Length > 0)
+        {
+            int e = Random.Range(0, jumpSFXList.Length - 1);
+            audioSourceFootSteps.PlayOneShot(jumpSFXList[e], jumpSFXVolume);
+        }
+        else
+        {
+            Debug.Log("No SFX in jumpSFXList");
+        }
     }
     #region Falling
     

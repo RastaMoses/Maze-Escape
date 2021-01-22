@@ -105,7 +105,14 @@ public class ThirdPersonMovement : MonoBehaviour
                 if(hit.point.y < transform.position.y) //Check if impact point is beneath player
                 {
                     Debug.Log("Fall Damage");
-                    GetComponent<Health>().TakeDamage(minFallDamage + (-playerVel.y * fallDamageMultiplier));
+                    if(GetComponent<Health>() == null)
+                    {
+                        Debug.Log("Health Component not found.");
+                    }
+                    else
+                    {
+                        GetComponent<Health>().TakeDamage(minFallDamage + (-playerVel.y * fallDamageMultiplier));
+                    }
                 }
             }
         }

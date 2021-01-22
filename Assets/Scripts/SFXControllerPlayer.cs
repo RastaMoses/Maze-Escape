@@ -10,6 +10,9 @@ public class SFXControllerPlayer : MonoBehaviour
     [SerializeField] AudioSource audioSourceBreath;
     [SerializeField] CharacterController controller;
     [SerializeField] ThirdPersonMovement movement;
+    [Header("Damage")]
+    [SerializeField] AudioClip[] damageSFXList;
+    [SerializeField] [Range(0, 1)] float damageSFXVolume;
     [Header("Jump")]
     [SerializeField] AudioClip[] jumpSFXList;
     [SerializeField] [Range(0,1)] float jumpSFXVolume;
@@ -66,6 +69,23 @@ public class SFXControllerPlayer : MonoBehaviour
         CheckFalling();
         
     }
+    #region Damage
+
+    public void PlayDamageSFX()
+    {
+        if (damageSFXList.Length > 0)
+        {
+            int i = Random.Range(0, damageSFXList.Length - 1);
+            audioSourcePlayer.PlayOneShot(damageSFXList[i], damageSFXVolume);
+        }
+        else
+        {
+            Debug.Log("No SFX in damageSFXList");
+        }
+    }
+
+    #endregion
+
 
     #region Running
 

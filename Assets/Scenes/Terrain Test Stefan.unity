@@ -1568,12 +1568,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: b0e4f47eca4ad9e42a6f0811dd910526, type: 3}
     - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: jumpSFXVolume
+      value: 0.368
+      objectReference: {fileID: 0}
+    - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: damageSFXVolume
+      value: 0.298
+      objectReference: {fileID: 0}
+    - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
       propertyPath: runBreathVolume
       value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
       propertyPath: idleBreathVolume
       value: 0.368
+      objectReference: {fileID: 0}
+    - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: jumpCrySFXVolume
+      value: 0.314
       objectReference: {fileID: 0}
     - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
       propertyPath: landingSFXVolume
@@ -1612,6 +1624,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: damageSFXList.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
       propertyPath: jumpCrySFXList.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -1647,6 +1663,30 @@ PrefabInstance:
       propertyPath: jumpSFXList.Array.data[7]
       value: 
       objectReference: {fileID: 8300000, guid: 1bad5845d6c8dd64fbd089bc1ea5f1ff, type: 3}
+    - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: damageSFXList.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: f05ef577cd3064149895cd38db78ca98, type: 3}
+    - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: damageSFXList.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 8a623f2b72325b341b53d2090601eb46, type: 3}
+    - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: damageSFXList.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 41a42052f21a10c4486eef6e32b99e03, type: 3}
+    - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: damageSFXList.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: cee3e575b99949241b0db1e2f3114df2, type: 3}
+    - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: damageSFXList.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: 323c692117ffd1e41ab2b045a119a68b, type: 3}
+    - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
+      propertyPath: damageSFXList.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: d32934d896ab49d4a84bfe263cbcb918, type: 3}
     - target: {fileID: 2363537357530202172, guid: 0e1f57f572e75dc4d83472f0171d6a85, type: 3}
       propertyPath: jumpCrySFXList.Array.data[0]
       value: 
@@ -1836,11 +1876,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4293762042084617312, guid: f679bcb78bd715b41a2873d933240cfb, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000017004536
+      value: -0.000000017004536
       objectReference: {fileID: 0}
     - target: {fileID: 4293762042084617312, guid: f679bcb78bd715b41a2873d933240cfb, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000026277842
+      value: 0.0000000026277842
       objectReference: {fileID: 0}
     - target: {fileID: 4293762042084617312, guid: f679bcb78bd715b41a2873d933240cfb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1957,11 +1997,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5692629048137032405, guid: c9ea8dfafb71d3945a07c2afe70f6caf, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000008502269
+      value: -0.000000008502268
       objectReference: {fileID: 0}
     - target: {fileID: 5692629048137032405, guid: c9ea8dfafb71d3945a07c2afe70f6caf, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000013138919
+      value: 0.0000000013138921
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9ea8dfafb71d3945a07c2afe70f6caf, type: 3}

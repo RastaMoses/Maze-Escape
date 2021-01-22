@@ -36,7 +36,6 @@ public class Electric : MonoBehaviour
         if (!active && !onTimer)
         {
             active = true;
-            SetElectric();
             SpawnParticles();
             StartCoroutine(WaitTimeUntilChain());
             if (deactivateAfterTime)
@@ -74,13 +73,7 @@ public class Electric : MonoBehaviour
     {
         Destroy(electricParticle);
     }
-    void SetElectric()
-    {
-        if (GetComponent<Health>())
-        {
-            GetComponent<Health>().SetElectric();
-        }
-    }
+    
 
     IEnumerator WaitTimeUntilChain()
     {
@@ -96,7 +89,11 @@ public class Electric : MonoBehaviour
             {
                 hitCollider.gameObject.GetComponent<Electric>().Activate();
             }
-            
+            if (hitCollider.gameObject.GetComponent<Health>())
+            {
+                hitCollider.gameObject.GetComponent<Health>().SetElectric();
+            }
+
         }
     }
 

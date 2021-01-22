@@ -32,7 +32,7 @@ public class Health : MonoBehaviour
 
     //Cached Component Reference
     IEnumerator onFireCoroutine;
-
+    SFXControllerPlayer sfx;
 
 
 
@@ -41,6 +41,7 @@ public class Health : MonoBehaviour
 
         currentHP = maxHP;
 
+        sfx = GetComponent<SFXControllerPlayer>();
         //save coroutines in variables
         onFireCoroutine = OnFire();
         fireColliderList = new List<Collider>();
@@ -54,6 +55,7 @@ public class Health : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHP -= damage;
+        sfx.PlayDamageSFX();
         DamagePopUp(damage); //Test
     }
 
